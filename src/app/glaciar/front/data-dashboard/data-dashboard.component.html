@@ -1,0 +1,79 @@
+<h3>
+    {{ viewHelper.dataset_name }}
+</h3>
+<br>
+<h5>
+    Datos sobre <b>{{ viewHelper.sub_header }}</b>
+    obtenido de la plataforma de datos abiertos:
+    <b>{{ viewHelper.dataset_desc }}</b>
+</h5>
+<br>
+
+<!-- TABS de VARIABLES -->
+<ngb-tabset #t="ngbTabset"
+[activeId]="quality_id"
+(tabChange)="onTabChange($event)">
+
+
+<ngb-tab
+    id="AIRQ"
+    [disabled]="!enabled_guality_airq">
+    <ng-template ngbTabTitle>
+        <b>Calidad del Aire</b>
+    </ng-template>
+    <ng-template ngbTabContent>
+
+        <br>
+
+        <div *ngIf="iWantUse_AMCHARTS4()">
+             <gcr-amcharts4
+                [dataset_id]='dataset_id'
+                  [param_id]='param_id'
+                  quality_id='AIRQ'
+                  [selector]='selector'
+                      [seed]='summariesSelected'
+                [dateFilter]='dateFilter'
+               >
+            </gcr-amcharts4>
+        </div>
+
+    </ng-template>
+</ngb-tab>
+<ngb-tab
+    id="WATERQ"
+    [disabled]="!enabled_guality_waterq"
+    >
+    <ng-template ngbTabTitle>
+            <b>Calidad del Agua</b>
+    </ng-template>
+    <ng-template ngbTabContent>
+
+        <br>
+
+        <div *ngIf="iWantUse_AMCHARTS4()">
+            <gcr-amcharts4
+                [dataset_id]='dataset_id'
+                  [param_id]='param_id'
+                  quality_id='WATERQ'
+                  [selector]='selector'
+                      [seed]='summariesSelected'
+                [dateFilter]='dateFilter'
+                 [dateRange]='dateRange'
+               >
+           </gcr-amcharts4>
+       </div>
+
+    </ng-template>
+</ngb-tab>
+</ngb-tabset>
+
+
+<br><br>
+
+
+<gcr-config-tab
+    [dataset_id]="dataset_id"
+    [quality_id]="quality_id"
+      [param_id]="param_id"
+>
+</gcr-config-tab>

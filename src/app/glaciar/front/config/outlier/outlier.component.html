@@ -1,0 +1,241 @@
+<div class="centrame">
+
+
+
+        <span>
+            <!-- <h4>Valores</h4><br> -->
+            <h6>Definir preferencias para los valores <b>nulos</b> y <b>atípicos (outliers)</b> de las series.</h6>
+        </span>
+        
+        <br>
+
+        <form [formGroup]="formConfig" class="form form-horizontal">
+
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <i class="icon fas fa-level-up-alt"></i> <b>Valores Atípicos (outliers)</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+
+Preferencia sobre los <b>valores atípicos (outliers)</b>
+
+
+        <!-- ACCION A TOMAR INICIO -->
+        <br><br><br>
+        <table class="table table-sm">
+        <tbody>
+            <tr *ngFor="let action of outliers_actions">
+                <td  scope="row" class="text-right valign-middle" width="5%">&nbsp;&nbsp; 
+                <input type="radio" class="form-check-input"
+                    formControlName="outliers_action" 
+                                name="outliers_action" 
+                                id="outliers_{{ action.code }}"
+                            value="{{ action.code }}">
+                </td>
+                <td class="text-left valign-middle">
+                    <label class="form-check-label" style="cursor: pointer" for="outliers_{{ action.code }}">{{ action.desc }}</label>
+                </td>
+                <td class="text-left valign-middle">
+                    <span  *ngIf="formConfig.value.outliers_action === 'discard' && action.code === 'discard' ">
+                        <label class="form-check-label">{{ formConfig.value.serie_connect | switchText: 'Conn' }} </label>
+                    </span>
+                </td>
+                <td class="text-left valign-bottom">
+                    <span  *ngIf="formConfig.value.outliers_action === 'discard' && action.code === 'discard' ">
+                        <ui-switch size="small" [checked]="chartConfig.serie_connect"  formControlName="serie_connect"></ui-switch> 
+                    </span>
+                </td>
+            </tr>
+            <tr>
+            <td colspan="4"></td>
+            </tr>
+        </tbody>
+        </table>
+        <!-- ACCION A TOMAR FIN -->
+
+
+<br>
+
+
+<!-- 
+    <i class="icon fas fa-comment-alt"></i>
+    <i class="icon far fa-comment-alt"></i>
+    <i class="icon fas fa-comment"></i>
+    <i class="icon far fa-comment"></i>
+
+-->
+
+    <span class="celda3 align-items-center"
+            *ngFor="let ooll of OUTLIERS_CONTROLS; let i=index">
+
+        <div class="row celda4 align-items-bottom">
+            <div class="celda1 col-12 valign-top">
+                <i  class="icon far fa-comment-alt" id="eee_{{ i }}"
+                    style="cursor: pointer" 
+                  (click)="outlier(ooll.value.var)"></i> 
+                
+                <label  class="celda2 text-bold-600 ml-2"  
+                        style="cursor: pointer" 
+                      (click)="outlier(ooll.value.var)">
+                &nbsp; {{ ooll.value.var | textTransfPipe: 'paramDesc' }}:
+                </label>
+            </div>
+        </div>
+        <div class="row celda3 align-items-center text-center">
+            <div class="celda1 col-1">
+                    <br><br><br><br><br><br>
+            </div>
+            <div class="celda1 col-8">
+                <nouislider 
+                        [connect]="true"
+                         [config]="slides_config[i]"
+                    [formControl]="MBRALLSS_CONTROLS[i]"> 
+                </nouislider> 
+                &nbsp;&nbsp;
+                {{ ooll.value.var | textTransfPipe: 'unidad' }}
+            </div>
+            <div class="celda1 col">
+            </div>
+        </div>
+
+    <br><br>
+    </span>
+
+
+    <br><br><br>
+
+
+
+
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+
+<br>
+
+<nb-accordion>
+        <nb-accordion-item #item expanded="true">
+            <nb-accordion-item-header>
+                <i class="icon fas fa-eraser"></i><b>Valores Nulos</b>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+    
+Preferencia sobre los <b>valores nulos</b>
+    
+    
+    
+
+<!-- ACCION A TOMAR -->
+<br><br><br>
+<table class="table table-sm">
+<tbody>
+<tr *ngFor="let action of nil_actions">
+<td  scope="row" class="text-right valign-middle" width="5%">&nbsp;&nbsp; 
+<input type="radio" class="form-check-input"
+    formControlName="nil_action" 
+                name="nil_action" 
+                    id="nil_{{ action.code }}"
+                value="{{ action.code }}">
+</td>
+<td class="text-left valign-middle">
+<label class="form-check-label" style="cursor: pointer" for="nil_{{ action.code }}">{{ action.desc }}</label>
+</td>
+<td class="text-left valign-middle">
+<span  *ngIf="formConfig.value.nil_action === 'discard' && action.code === 'discard' ">
+<label class="form-check-label">{{ formConfig.value.serie_connect | switchText: 'Conn' }} </label>
+</span>
+</td>
+<td class="text-left valign-bottom">
+<span  *ngIf="formConfig.value.nil_action === 'discard' && action.code === 'discard' ">
+<ui-switch size="small" [checked]="chartConfig.serie_connect" formControlName="serie_connect"></ui-switch> 
+</span>
+</td>
+</tr>
+<tr>
+<td colspan="4"></td>
+</tr>
+</tbody>
+</table>
+<br>
+<!-- ACCION A TOMAR -->
+
+    
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+    </nb-accordion>
+    
+    
+
+
+
+        </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!--
+<hr>
+<pre>formConfig = {{formConfig.value | json}}</pre>
+<hr>
+<pre>chartConfig = {{ chartConfig | json }}</pre>
+-->
+<!-- 
+Boton Toaster Ok!
+<div class="col-md-4 col-sm-12 text-center">
+<button type="button" class="btn btn-info btn-block btn-raised mb-5"
+id="type-info" (click)="_dd_onClick()">_dd_onClick</button>
+</div>
+-->
+        
+
+
+<gcr-debug
+     [fatherName]=" 'outlier.component' "
+     [formConfig]="formConfig"
+    [chartConfig]="chartConfig"
+>
+</gcr-debug>
+
+
+<!-- 
+<i class="icon-speech" (click)="outlier(i)"></i> 
+
+
+    icon-speech
+ft-message-square 
+ft-message-circle icon-notebook
+
+Temperatura: ft-thermometer
+viento ? - ft-wind
+-->
+
+
+
+<!-- 
+    outliers:
+    <i class="icon fas fa-level-up-alt"></i>
+    <i class="icon fas fa-exchange-alt"></i>
+    <i class="icon fas fa-arrows-alt-h"></i>
+    <i class="icon fas fa-arrows-alt-v"></i>
+    <i class="icon fas fa-sign-out-alt"></i>
+    <i class="icon fas fa-meteor"></i>
+    <i class="icon fas fa-wave-square"></i>
+
+    nulos:
+    <i class="icon fas fa-file-excel"></i>
+    <i class="icon fas fa-eraser"></i>
+    <i class="icon fab fa-creative-commons-zero"></i>
+    <i class="icon fab fa-creative-commons-zero"></i>  no esta ?
+-->

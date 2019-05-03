@@ -1,0 +1,175 @@
+
+
+<span *ngIf='show'>
+
+
+<span *ngIf='isHost_Local'>
+  <br/>
+  debug works! - Estoy en el entorno Local
+
+
+
+
+
+      <ng-template ngIf="fatherName !== 'ANY' ">
+          <h6 class="form-section">
+              <i class="{{ viewHelper.icon_Tab[0] }}" style="cursor: pointer"
+                  (click)="iconClicked(0)"
+                          [attr.aria-expanded]="!isCollapsed_Tab[0]"
+                              aria-controls="collapseUmbrales"></i>
+                              &nbsp;<i class="ft-cloud-lightning"></i>
+                              &nbsp;Context in {{ fatherName }}
+          </h6>
+          <hr>
+          <div id="collapseUmbrales">
+            <div class="row">
+                <span class="col">  
+                  <span class="ww" *ngIf="fatherName === 'amChart4_LabMode'"> 
+                                         ... contenido de amChart4_LabMode ...  <br><br>
+
+                    <pre>chartConfig.outliers_action = {{ chartConfig.outliers_action | json }}</pre>
+                    <pre>chartConfig.outliers[2]     = {{ chartConfig.outliers[2] | json }}</pre>
+                                    
+                  </span>
+                  <span class="ww" *ngIf="fatherName === 'setup.component'"> 
+                                         ... contenido de setup.component ...  <br><br>
+<pre>
+formConfig.value.umbrals_on = {{ formConfig.value.umbrals_on }} + [ {{ formConfig.value.umbral_min }},{{ formConfig.value.umbral_avg }},{{ formConfig.value.umbral_max }} ]
+chartConfig.umbrals_on      = {{ chartConfig.umbrals_on      }} + [ {{ chartConfig.umbral_min      }},{{ chartConfig.umbral_avg      }},{{ chartConfig.umbral_max      }} ]
+  
+
+</pre>
+                  </span>
+                  <span class="ww" *ngIf="fatherName === 'umbral.component'"> 
+                                         ... contenido de umbral.component ...  <br><br>
+
+
+<div class="row font-small-2">
+<span class="celdas4 col-4">
+<pre>
+formConfig.value.outliers_action = {{ formConfig.value.outliers_action | json }}
+chartConfig.outliers_action      = {{ chartConfig.outliers_action      | json }}
+</pre>
+</span>
+<span class="celdas4 col-4">
+<pre>
+formConfig.value.nil_action = {{ formConfig.value.nil_action | json }}
+chartConfig.nil_action      = {{ chartConfig.nil_action      | json }}
+</pre>
+</span>
+<span class="celdas4 col">
+<pre>
+formConfig.value.serie_connect = {{ formConfig.value.serie_connect | json }}
+chartConfig.serie_connect      = {{ chartConfig.serie_connect      | json }}
+</pre>
+</span>
+</div>
+
+<pre>
+formConfig.value.umbrals_on = {{ formConfig.value.umbrals_on }} + [ {{ formConfig.value.umbral_min }},{{ formConfig.value.umbral_avg }},{{ formConfig.value.umbral_max }} ]
+chartConfig.umbrals_on      = {{ chartConfig.umbrals_on      }} + [ {{ chartConfig.umbral_min      }},{{ chartConfig.umbral_avg      }},{{ chartConfig.umbral_max      }} ]
+
+
+</pre>
+                  </span>
+                  <span class="ww" *ngIf="fatherName === 'valores.component'"> 
+                                         ... contenido de valores.component ...  <br><br>
+
+
+<div class="row font-small-2">
+<span class="celdas4 col-4">
+<pre>
+formConfig.value.outliers_action = {{ formConfig.value.outliers_action | json }}
+chartConfig.outliers_action      = {{ chartConfig.outliers_action      | json }}
+</pre>
+</span>
+<span class="celdas4 col-4">
+<pre>
+formConfig.value.nil_action = {{ formConfig.value.nil_action | json }}
+chartConfig.nil_action      = {{ chartConfig.nil_action      | json }}
+</pre>
+</span>
+<span class="celdas4 col">
+<pre>
+formConfig.value.serie_connect = {{ formConfig.value.serie_connect | json }}
+chartConfig.serie_connect      = {{ chartConfig.serie_connect      | json }}
+</pre>
+</span>
+</div>
+
+<div class="row">
+<span class="col-2">
+<pre>
+formConfig
+.value
+.mbrallss = 
+{{ formConfig.value.mbrallss | json }}
+</pre>
+</span>
+<span class="col-4">
+<pre>
+formConfig.value
+.outliers = 
+{{ formConfig.value.outliers | json }}
+</pre>
+</span>
+<span class="col">
+<pre>
+chartConfig
+.outliers = 
+{{ chartConfig.outliers      | json }}
+</pre>
+</span>
+</div>
+
+</span>
+                </span>
+                <br><br><br>
+              </div>
+          </div>
+        </ng-template> 
+
+
+
+
+        <h6 class="form-section">
+            <i class="{{ viewHelper.icon_Tab[1] }}" style="cursor: pointer"
+                (click)="iconClicked(1)"
+                        [attr.aria-expanded]="!isCollapsed_Tab[1]"
+                            aria-controls="collapseUmbrales"></i>
+                            &nbsp;<i class="ft-cloud-lightning"></i>
+                            &nbsp;Context
+        </h6>
+        <hr>
+
+        <div id="collapseUmbrales">
+          <div class="row">
+            <span class="col">  
+              <pre class="pl-3" *ngIf="formConfig">formConfig.value  =  {{ formConfig.value | json }}</pre>
+              <pre class="pl-3" *ngIf="form2"    >form2.value        =  {{ form2.value      | json }}</pre>
+            </span>
+            <span class="col">  
+              <pre class="pl-3" *ngIf="chartConfig">chartConfig  =  {{ chartConfig | json }}</pre>
+            </span>
+          </div>
+        </div>
+
+
+
+
+
+
+  <br><br>
+</span>
+
+
+<span *ngIf='!isHost_Local'>
+  <!--
+    <br><br>
+    <hr><pre>chartConfig  =  {{ chartConfig      | json }}</pre>
+  -->
+</span>
+
+
+
+</span>

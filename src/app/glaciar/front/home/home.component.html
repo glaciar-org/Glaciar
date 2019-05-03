@@ -1,0 +1,200 @@
+<nb-card>
+    <nb-card-header>
+        <h4>Glaciar @ 2019</h4>
+    </nb-card-header>
+
+    <nb-card-body>
+
+        <h5>Visualización de Variables Hídricas y Atmosféricas</h5>
+
+        <br>
+        <p>Variables consideradas:</p>
+
+        <div class="row">
+            <span class="col-3"> 
+                &nbsp;
+            </span>
+            <span class="col">  
+                <p><strong>Calidad del Aire:</strong></p>
+                <ul>
+                    <li>Monóxido de carbono (CO)</li>
+                    <li>Dióxido de carbono (CO2)</li>
+                    <li>Monóxido de nitrógeno (NO)</li>
+                    <li>Dióxido de nitrógeno (NO2)</li>
+                </ul>
+            </span>
+            <span class="col">  
+                <p><strong>Calidad del Agua:</strong> </p>
+                <ul>
+                    <li>Temperatura</li>
+                    <li>pH</li>
+                    <li>Potencial de Oxidación Reduxión (Redox)</li>
+                    <li>Oxígeno Disuelto en Agua (OD)</li>
+                    <li>Conductividad</li>
+                </ul>
+            </span>
+            <span class="col-1"> 
+                &nbsp;
+            </span>
+        </div>
+
+    </nb-card-body>
+</nb-card>
+
+
+<nb-card>
+    <nb-card-header>
+        Datos disponibles
+    </nb-card-header>
+
+    <nb-card-body>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Calidad del Aire</th>
+                <th>Calidad del Agua</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <b><a [routerLink]="['/d', 'DS01', 'q', 'AIRQ', 'p', 'CO' ]">Buenos Aires</a></b>
+                    </th>
+                    <td>
+                        <b><a [routerLink]="['/d', 'DS01', 'q', 'AIRQ', 'p', 'CO' ]">CO </a> </b> &nbsp;
+                        <span class="text-hint">CO2 </span> &nbsp;
+                        <span class="text-hint">NO  </span> &nbsp;
+                        <b><a [routerLink]="['/d', 'DS01', 'q', 'AIRQ', 'p', 'NO2']">NO2</a> </b> &nbsp;
+                    </td>
+                    <td>
+                        <span class="text-hint">Temp</span>  &nbsp;
+                        <span class="text-hint">pH</span>    &nbsp;
+                        <span class="text-hint">OD</span>    &nbsp;
+                        <span class="text-hint">Redox</span> &nbsp;
+                        <span class="text-hint">Cond</span>  &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <b><a [routerLink]="['/d', 'DS02', 'q', 'AIRQ', 'p', 'CO' ]">Bahía Blanca</a></b>
+                    </th>
+                    <td>
+                        <b><a [routerLink]="['/d', 'DS02', 'q', 'AIRQ', 'p', 'CO' ]">CO</a>  </b> &nbsp;
+                        <span class="text-hint">CO2 </span> &nbsp;
+                        <b><a [routerLink]="['/d', 'DS02', 'q', 'AIRQ', 'p', 'NO' ]">NO</a>  </b> &nbsp;
+                        <b><a [routerLink]="['/d', 'DS02', 'q', 'AIRQ', 'p', 'NO2']">NO2</a> </b> &nbsp;
+                    </td>
+                    <td>
+                        <span class="text-hint">Temp</span>  &nbsp;
+                        <span class="text-hint">pH</span>    &nbsp;
+                        <span class="text-hint">OD</span>    &nbsp;
+                        <span class="text-hint">Redox</span> &nbsp;
+                        <span class="text-hint">Cond</span>  &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <b><a [routerLink]="['/d', 'DS03', 'q', 'WATERQ', 'p', 'Temp' ]">Charles River</a></b>
+                    </th>
+                    <td>
+                        <span class="text-hint">CO  </span> &nbsp;
+                        <span class="text-hint">CO2 </span> &nbsp;
+                        <span class="text-hint">NO  </span> &nbsp;
+                        <span class="text-hint">NO2 </span> &nbsp;
+                    </td>
+                    <td>
+                        <b><a [routerLink]="['/d', 'DS03', 'q', 'WATERQ', 'p', 'Temp' ]">Temp</a>  </b> &nbsp; 
+                        <b><a [routerLink]="['/d', 'DS03', 'q', 'WATERQ', 'p', 'pH']">pH</a>       </b> &nbsp; 
+                        <b><a [routerLink]="['/d', 'DS03', 'q', 'WATERQ', 'p', 'OD' ]">OD</a>      </b> &nbsp; 
+                        <span class="text-hint">Redox</span> &nbsp;
+                        <span class="text-hint">Cond</span>  &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <b><a [routerLink]="['/d', 'DS04', 'q', 'AIRQ', 'p', 'CO' ]">BDHI</a></b>
+                    </th>
+                    <td>
+                        <span class="text-hint">CO  </span> &nbsp;
+                        <span class="text-hint">CO2 </span> &nbsp;
+                        <span class="text-hint">NO  </span> &nbsp;
+                        <span class="text-hint">NO2 </span> &nbsp;
+                    </td>
+                    <td>
+                        <b><a  [routerLink]="['/d', 'DS04', 'q', 'WATERQ', 'p', 'Temp' ]">Temp</a>   </b> &nbsp; 
+                        <b><a  [routerLink]="['/d', 'DS04', 'q', 'WATERQ', 'p', 'pH']">pH</a>        </b> &nbsp; 
+                        <b><a  [routerLink]="['/d', 'DS04', 'q', 'WATERQ', 'p', 'OD' ]">OD</a>       </b> &nbsp; 
+                        <b><a  [routerLink]="['/d', 'DS04', 'q', 'WATERQ', 'p', 'REDOX']">Redox</a>  </b> &nbsp; 
+                        <b><a  [routerLink]="['/d', 'DS04', 'q', 'WATERQ', 'p', 'Cond']">Cond</a>    </b> &nbsp; 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <b><a [routerLink]="['/d', 'DS05', 'q', 'AIRQ', 'p', 'CO2']">Emisiones de CO2</a></b>
+                    </th>
+                    <td>
+                        <div style="margin-left: 29px">
+                            <b><a [routerLink]="['/qv/d', 'DS05', 'q', 'AIRQ', 'p', 'CO2', 'x', 'PAISES']">CO2  &nbsp; por Paises</a></b>
+                        </div>
+                        <br/>
+                        <div style="margin-left: 29px">
+                            <b><a [routerLink]="['/qv/d', 'DS05', 'q', 'AIRQ', 'p', 'CO2', 'x', 'SECTORES']">CO2  &nbsp; por Sectores</a></b>
+                        </div>  
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+<!--Basic google map starts-->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block mt-2">
+
+                    <agm-map
+                      [latitude]="lat"
+                      [longitude]="lng"
+                      [zoom]="zoom">
+
+                      <agm-marker
+                          *ngFor="let m of markers"
+                          [latitude] ="m.latitude"
+                          [longitude]="m.longitude">
+
+                          <agm-info-window>
+                            <strong>
+                                <a href="{{ m.link }}">
+                                            {{ m.name }}</a>
+                            </strong>
+                          </agm-info-window>
+
+                      </agm-marker>
+
+                    </agm-map>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Basic google map ends-->
+

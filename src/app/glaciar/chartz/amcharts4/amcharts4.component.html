@@ -1,0 +1,144 @@
+<br>
+
+
+<!-- Line Chart Starts -->
+<div class="row">
+<div class="col-sm-12">
+   <div class="card">
+
+        <div class="card-header">
+            <div class="row">
+                <span class="col-sm-5">
+                    <b> {{ param_id | textTransfPipe: 'paramDesc' }} </b> 
+                </span>
+                <span class="col-sm-5">
+                    <b> Desde: </b> {{ dateFilter.from |  dateFormatPipe: 'ff1_Date' }} &nbsp;&nbsp;
+                    <b> Hasta: </b> {{ dateFilter.to   |  dateFormatPipe: 'ff1_Date' }} &nbsp;&nbsp;
+                    <gcr-datepicker
+                        (onDateChange)="onDateChange($event)"
+                        [dateRange]='dateRange'
+                        [dateFilter]='dateFilter'
+                        [display_mode]=" 'DISPLAY_MODE_ICON' ">
+                    </gcr-datepicker>
+                </span>
+                <span class="col-sm-2 text-right">
+                    <a (click)="doDownload($event)" href="#" style="text-decoration: none;"><i class="fa fa-download"></i> &nbsp; export to CSV</a>
+                </span>
+            </div>
+       </div>
+
+       
+  
+       <div class="card-body">
+            <div class="card-block">
+
+                <div class="row">
+                    <div class="col-5">
+
+                        <label class="text-uppercase font-small-2 text-bold-100">Zoom:</label> &nbsp; &nbsp; 
+                        <button (click)="click_Button_Y()" class="btn btn-primary btn-rectangle btn-xs">Y</button> &nbsp;
+                        <button (click)="click_Button_M()" class="btn btn-primary btn-rectangle btn-xs">M</button> &nbsp;
+                        <button (click)="click_Button_D()" class="btn btn-primary btn-rectangle btn-xs">D</button> &nbsp;
+                        <button (click)="click_Button_H()" class="btn btn-primary btn-rectangle btn-xs">H</button> &nbsp;
+                        <button (click)="click_Zoom_Out()" class="btn btn-primary btn-rectangle btn-xs">Zoom Out</button> &nbsp;
+
+                        <!-- 
+                            - success
+                            - primary
+                            - btn-outline-success
+                            - btn-outline-primary
+                            -->
+
+                    </div>
+                    <div class="col-7">
+
+                        <span *ngIf="!viewHelper.isDS05">
+                            <!-- TABS de VARIABLES -->
+                            <span *ngIf="quality_id === 'AIRQ' ">
+                                <ul class="nav nav-pills justify-content-end">
+                
+                                    <li *ngFor="let item of param_menu_tabs.TABS.AIRQ"
+                                        class="nav-item">
+                
+                                        <span *ngIf="item.disabled">
+                                            <a class="nav-link disabled">{{ item.name | textTransfPipe: 'pq' }}</a>
+                                        </span>
+                
+                                        <span *ngIf="!item.disabled">
+                                            <a class="nav-link {{ item.style }}"
+                                            routerLinkActive="active"
+                                            [routerLink]="['/d', dataset_id, 'q', quality_id, 'p', pq(item.name)]">{{ item.name | textTransfPipe: 'pq' }}</a>
+                                        </span>
+                
+                                    </li>
+                
+                                </ul>
+                            </span>
+                            <span *ngIf="quality_id === 'WATERQ' ">
+                                <ul class="nav nav-pills justify-content-end">
+                
+                                    <li *ngFor="let item of param_menu_tabs.TABS.WATERQ"
+                                        class="nav-item">
+                
+                                        <span *ngIf="item.disabled">
+                                            <a class="nav-link disabled">{{ item.name | textTransfPipe: 'pq' }}</a>
+                                        </span>
+                
+                                        <span *ngIf="!item.disabled">
+                                            <a class="nav-link {{ item.style }}"
+                                            routerLinkActive="active"
+                                            [routerLink]="['/d', dataset_id, 'q', quality_id, 'p', pq(item.name)]">{{ item.name | textTransfPipe: 'pq' }}</a>
+                                        </span>
+                
+                                    </li>
+                
+                                </ul>
+                            </span>
+                            <!-- TABS de VARIABLES FIN -->
+                        </span>
+                        <span *ngIf="viewHelper.isDS05">
+
+                            <ul class="nav nav-pills justify-content-end">
+                                <li *ngFor="let item of param_menu_tabs"
+                                    class="nav-item">
+
+                                    <!-- class="nav-item" -->
+                                    <span *ngIf="item.selected">
+                                        <!-- <button type="button" 
+                                                class="btn btn-raised btn-primary btn-min-width mr-1 mb-1">{{ item.name | textTransfPipe: 'spanish' }}</button> -->
+                                        <button 
+                                               class="btn btn-outline-primary btn-xs active">{{ item.name | textTransfPipe: 'spanish' }}</button> &nbsp;
+                                    </span>
+                                    <span *ngIf="!item.selected">
+                                        <!-- <a (click)="click_ChangeItem(item.name)" 
+                                               class="btn btn-flat btn-primary">{{ item.name | textTransfPipe: 'spanish' }}</a> -->
+
+                                        <button (click)="click_ChangeItem(item.name)"  
+                                               class="btn btn-outline-primary btn-xs">{{ item.name | textTransfPipe: 'spanish' }}</button> &nbsp;
+                                    </span>
+
+                                    
+                                </li>
+                            </ul>
+                        </span>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="chartdiv" style="width: 100%; height: 580px"></div>
+
+   </div>
+</div>
+</div>
+<!-- Line Chart Ends -->
+ <gcr-debug
+   [fatherName]=" 'amChart4.component' "
+
+  [chartConfig]="chartConfig"
+ >
+</gcr-debug>
+
+

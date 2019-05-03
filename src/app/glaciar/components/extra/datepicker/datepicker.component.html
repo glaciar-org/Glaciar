@@ -1,0 +1,88 @@
+<ng-container>
+
+  <span ngbDropdown 
+        class="" 
+        (openChange)="openChange($event)" 
+        placement="bottom-right" 
+        [autoClose]="'outside'" 
+        #myDrop="ngbDropdown">
+
+        <span class="font-small-2" ngbDropdownToggle>
+            <span *ngIf=" fromDate &&  toDate">
+              <span *ngIf=" display_mode === 'DISPLAY_MODE_TEXTO' ">
+                <b>Desde:</b> {{ fromDate | dateFormatPipe : 'fmtNgb' }}, 
+                <b>Hasta:</b> {{ toDate   | dateFormatPipe : 'fmtNgb' }}
+              </span>
+              <span *ngIf=" display_mode === 'DISPLAY_MODE_ICON' ">
+                <b><i class="far fa-calendar-alt text-success" style="cursor: pointer"></i> &nbsp;</b>
+                <!-- &nbsp; seleccionar rango -->
+              </span>
+            </span>
+            <!-- <span *ngIf="!fromDate || !toDate">Seleccionar periodo</span> -->
+        </span>
+
+        <span ngbDropdownMenu
+            class="m-0 p-0 date-range-dropdown animation-duration-200 animation-scale-up animation-top-right">
+
+            <ngb-datepicker #dp 
+                  class = "glaciar_picker"
+                  (select)="onDateSelection($event)"
+                  [displayMonths]="2"
+                  [minDate]="minDate"
+                  [maxDate]="maxDate"
+                  [dayTemplate]="t">
+            </ngb-datepicker>
+
+        </span>
+  </span>
+
+  
+  <ng-template #t let-date="date" let-focused="focused">
+    <span class="custom-day"
+          [class.focused]="focused"
+          [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+          [class.faded]="isHovered(date) || isInside(date)"
+          (mouseenter)="hoveredDate = date"
+          (mouseleave)="hoveredDate = null">
+      {{ date.day }}
+    </span>
+  </ng-template>
+
+</ng-container>
+
+
+
+
+
+
+<!-- 
+Data Picker Doc
+https://pixinvent.com/apex-angular-4-bootstrap-admin-template/documentation/documentation-components-datepicker.html
+https://ng-bootstrap.github.io/#/components/datepicker/overview
+
+Este me gusta!!
+http://next.plnkr.co/edit/VDEYDwp7QIZDDHatCNPh?p=preview&preview
+
+---
+
+Excelente!
+http://plnkr.co/edit/CXktHE9GEtJWDSAw8Twy?p=preview
+
+https://pixinvent.com/apex-angular-4-bootstrap-admin-template/documentation/index.html
+
+
+NOTA: Ideas
+
+  a) Si selecciona una sola fecha, podría seter el "hasta" 
+     igual al desde
+  b) ¿Podría hacer refinamientos rápidos .... ? Como por ejemplo,
+     última semana, etcetera ... ?
+
+Lo ideal, es que lo pueda mutar a:
+
+  https://demo.improvely.com/reports/webshop/all
+
+Iteresante los ejemplos.... 
+   ¿Pero estan en angular ..?
+   http://fragaria.github.io/angular-daterangepicker/
+  -->

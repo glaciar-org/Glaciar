@@ -1,0 +1,85 @@
+<div class="centrame">
+
+
+
+<span>
+    <!-- <h4>Información</h4><br> -->
+    <h6>Información sobre el Dataset.</h6>
+</span>
+
+<br>
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <i class="icon far fa-calendar-alt"></i> <b>Período</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <div>
+                <label class="col-3"><b>Desde:</b></label>
+                <span  class="col">{{ dateRange.minDate | dateFormatPipe: 'ff1_Date' }}</span>
+            </div>
+            <div>
+                <label class="col-3"><b>Hasta:</b></label>
+                <span  class="col">{{ dateRange.maxDate | dateFormatPipe: 'ff1_Date' }}</span>
+            </div>
+            <div>
+                <label class="col-3"><b>Frecuencia:</b></label>
+                <span  class="col">{{ frecuencia | textTransfPipe: 'frecuencia' }}</span>
+            </div>
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+<br>
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <i class="icon fas fa-map-marker-alt"></i> <b>Ubicación</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <div style="margin: 20px">
+                <agm-map [latitude]="lat" 
+                        [longitude]="lng">
+                    <agm-marker [latitude]="lat" 
+                                [longitude]="lng">
+                    </agm-marker>
+                </agm-map>
+            </div>
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+<br>
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <!--
+                fas fa-chart-area
+                fas fa-chart-bar
+            -->
+            <i class="icon fas fa-chart-bar"></i> <b>Distribución de los Datos</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <br>
+                <gcr-dispersion 
+                    [dataset_id]="dataset_id">
+                </gcr-dispersion>
+            <br>
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+</div>
+
+<br><br>
+
+
+
+<gcr-debug
+     [fatherName]=" 'info.component' "
+>
+</gcr-debug>
+

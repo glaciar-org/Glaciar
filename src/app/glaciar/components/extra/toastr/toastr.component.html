@@ -1,0 +1,34 @@
+<!--Toastr Starts-->
+<section id="toastr">
+    <div class="row text-left">
+        <div class="col-12 mt-3 mb-1">
+            <div class="content-header">Toastr</div>
+            <p class="content-sub-header">By default, the toastr will show up at top right corner of the page view, and will automatically dismiss in 3 seconds. You can configure the toasts using ToastOptions class.</p>
+        </div>
+    </div>
+    
+      <button type="button" class="btn btn-success btn-block btn-raised" 
+      id="type-success" (click)="typeSuccess()">Success</button>
+      
+      <h1><a (click)="onClick()">Click</a></h1>
+      <div toastContainer></div> 
+      
+      <br><br>
+      <div class="col-md-4 col-sm-12 text-center">
+        <button type="button" class="btn btn-info btn-block btn-raised mb-5" 
+        id="type-info" (click)="typeInfo()">Info</button>
+      </div>
+
+      <br><br>
+
+      Un datepicker:
+        <gcr-datepicker
+        (onDateChange)="onDateChange($event)"
+        [dateRange]='dateRange'
+        [dateFilter]='dateFilter'
+      >
+      </gcr-datepicker>
+
+
+</section>
+

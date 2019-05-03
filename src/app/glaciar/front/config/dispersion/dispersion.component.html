@@ -1,0 +1,26 @@
+<div>
+    <p>
+        Dataset: <b> {{  this.viewHelper.info }} </b>
+    </p>
+    <br>
+</div>
+
+
+<div>
+    <label class="text-uppercase font-small-2 text-bold-100">Zoom:</label> &nbsp;
+    <button (click)="click_Button_Y()" class="btn btn-outline-success btn-xs {{ viewHelper['Y'] }}">Anual</button>    &nbsp;
+    <button (click)="click_Button_M()" class="btn btn-outline-success btn-xs {{ viewHelper['M'] }}">Mensual</button>  &nbsp;
+    <button (click)="click_Button_D()" class="btn btn-outline-success btn-xs {{ viewHelper['D'] }}">Diario</button>   &nbsp;
+    <button (click)="click_Zoom_Out()" class="btn btn-outline-success btn-xs">Zoom Out</button> &nbsp;
+</div>
+
+<div id="chartdiv_dispercion" style="width: 100%; height: 300px"></div>
+
+<gcr-debug
+     [fatherName]=" 'dispersion.component' "
+     [show]="false"
+>
+</gcr-debug>
+
+
+

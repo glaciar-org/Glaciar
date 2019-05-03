@@ -1,0 +1,293 @@
+<div class="centrame">
+
+    <span>
+        <!-- <h4>Configuración</h4><br> -->
+        <h6>Opciones de visualización.</h6>
+    </span>
+    
+    <br>
+
+    <form class="form form-horizontal" [formGroup]="formConfig">
+        <span class="form-body">
+
+
+
+            <!-- COLLAPSABLE TAB_1: INI -->
+            <nb-accordion>
+                <nb-accordion-item #item expanded="true">
+                    <nb-accordion-item-header>
+                        <i class="icon fas fa-chess-board"></i><b>Panel de Datos</b>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+
+
+                        <!-- [ROW] umbrals_on - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch (change)="onChange_range($event)"
+                                formControlName="umbrals_on"></ui-switch> 
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.umbrals_on | switchText: 'Umbral' }}</label>
+                        </div>
+                        <!-- [ROW] umbrals_on - Fin -->
+
+
+                        <!-- [ROW] umbral_max - Inicio -->
+                        <div class="form-group row" *ngIf="formConfig.value.umbrals_on">
+                            <span class="col-md-4"> &nbsp; </span>
+    
+                            <span class="col-md-2">
+                                <ui-switch class="blue-grey"
+                                    checkedLabel="Mínimo"
+                                  uncheckedLabel="Mínimo"
+                                 formControlName="umbral_min"></ui-switch> 
+                            </span>
+    
+                            <span class="col-md-2">
+                                <ui-switch class="blue-grey"
+                                    checkedLabel="Promedio"
+                                  uncheckedLabel="Promedio"
+                                 formControlName="umbral_avg"></ui-switch> 
+                            </span>
+    
+                            <span class="col-md-2">
+                                <ui-switch class="blue-grey"
+                                    checkedLabel="Máximo"
+                                  uncheckedLabel="Máximo"
+                                 formControlName="umbral_max"></ui-switch> 
+                            </span>
+                            <br><br>
+    
+                        </div>
+                        <!-- [ROW] umbral_min - Fin -->
+
+
+
+
+                            
+                    <!-- [ROW] cursor - Inicio -->
+                    <div class="form-group row">
+                        <span class="col-md-1"> &nbsp; </span>
+                        <span class="col-md-1">
+                            <ui-switch formControlName="cursor"></ui-switch> 
+                        </span>
+                        <label class="col-md-4 label-control">{{ formConfig.value.cursor | switchText: 'Cursor' }}</label>
+                        
+                    </div>
+                    <!-- [ROW] cursor - Fin -->
+    
+    
+                    <!-- [ROW] zoom - Inicio -->
+                    <div class="form-group row" *ngIf="formConfig.value.cursor">
+                        <span class="col-md-4"> &nbsp; </span>
+                        <span class="col-md-1">
+                            <ui-switch size="small" formControlName="zoom"></ui-switch> 
+                        </span>
+                        <label class="col-md-2 label-control">Zoom y Paneo: </label>
+    
+                        <span class="col-md-4 blue-grey" >
+                            <span *ngIf="!formConfig.value.zoom">
+                                Zoom horizontal (default)
+                            </span>
+                            <select formControlName="zoom_tipo" id="zoom_tipo" *ngIf="formConfig.value.zoom" class="blue-grey">
+                                <option value="zoomX" selected>Zoom horizontal</option>
+                                <option value="zoomY"> Zoom vertical</option>
+                                <option value="zoomXY">Zoom en ambas direcciones</option>
+    
+                                <option value="panX"> Paneo horizontal</option>
+                                <option value="panY"> Paneo vertical</option>
+                                <option value="panXY">Paneo en ambas direcciones</option>
+    
+                                <option value="none">Sin zoom ni paneo</option>
+                            </select>
+    
+                        </span>
+                    </div>
+                    <!-- [ROW] zoom - Fin -->
+    
+    
+
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+            <!-- COLLAPSABLE TAB_1: FIN -->
+
+            <br><br>
+
+            <!-- COLLAPSABLE TAB_2: INI -->
+            <nb-accordion>
+                <nb-accordion-item #item expanded="true">
+                    <nb-accordion-item-header>
+                        <i class="icon fas fa-chess-pawn"></i> <b>Eje Vertical</b>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+
+                        <!-- [ROW] scrollbarY - Inicio -->
+                        <div class="form-group row">
+                                <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch formControlName="scrollbarY"></ui-switch> 
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.scrollbarY | switchText: 'ScrollY' }}</label>
+                        </div>
+                        <!-- [ROW] scrollbarY - Fin -->
+            
+                        <!-- [ROW] labelY - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch formControlName="labelY"></ui-switch> 
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.labelY | switchText: 'LabelY' }}</label>
+                        </div>
+                        <!-- [ROW] labelY - Fin -->
+            
+                        <!-- [ROW] Zoom - Inicio -->
+                        <!-- Ok la idea, pero genera poco Valor al usuario
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch formControlName="Zoom"></ui-switch> 
+                            </span>
+            
+                            <label class="col-md-2 label-control">Zoom  </label>
+                            <div class="col-md-3">check i - check 2</div>
+                        </div>
+                        -->
+                        <!-- [ROW] Zoom - Fin -->
+
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+            <!-- COLLAPSABLE TAB_2: FIN -->
+
+            <br><br>
+
+            <!-- COLLAPSABLE TAB_3: INI -->
+            <nb-accordion>
+                <nb-accordion-item #item expanded="true">
+                    <nb-accordion-item-header>
+                        <i class="icon fas fa-chess-rook"></i><b>Eje Horizontal</b>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+
+                        <!-- [ROW] scrollbarX - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch formControlName="scrollbarX"></ui-switch> 
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.scrollbarX | switchText: 'ScrollX' }}</label>
+            
+                            <span class="col-md-4"  *ngIf="formConfig.value.scrollbarX">
+                                <ui-switch class="blue-grey"
+                                        checked
+                                    checkedLabel="abajo"
+                                  uncheckedLabel="arriba"
+                                 formControlName="scrollbarY_abajo"></ui-switch>
+        
+                                &nbsp;&nbsp;&nbsp;
+                                
+                                <ui-switch class="blue-grey"
+                                        checked
+                                    checkedLabel="vista previa"
+                                  uncheckedLabel="simple"
+                                 formControlName="scrollbarY_preview"></ui-switch>
+                            </span>
+                        </div>
+                        <!-- [ROW] scrollbarX - Fin -->
+
+                        <!-- [ROW] scrollbarY_abajo - Inicio -->
+                        <!-- <div class="form-group row" *ngIf="formConfig.value.scrollbarX">
+                            <span class="col-md-4"> &nbsp; </span>
+                            <span class="col-md-1">
+            
+                            </span>
+            
+                            <label class="col-md-2 label-control">Ubicación</label>
+                        </div> -->
+                        <!-- [ROW] scrollbarY_abajo - Fin -->
+    
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+            <!-- COLLAPSABLE TAB_3: FIN -->
+
+            <br><br>
+
+            <!-- COLLAPSABLE TAB_4: INI -->
+            <nb-accordion>
+                <nb-accordion-item #item expanded="true">
+                    <nb-accordion-item-header>
+                        <i class="icon fas fa-chess-bishop"></i><b>Series</b>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+ 
+
+                        <!-- [ROW] serie_tipo_area - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch checked
+                                    formControlName="serie_tipo_area"></ui-switch>
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.serie_tipo_area | switchText: 'Line' }}</label>
+                        </div>
+                        <!-- [ROW] serie_tipo_area - Fin -->
+                
+                        <!-- [ROW] serie_tooltip - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch checked
+                                    formControlName="serie_tooltip"></ui-switch>
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.serie_tooltip | switchText: 'Tooltip' }}</label>
+                        </div>
+                        <!-- [ROW] serie_tooltip - Fin -->
+                
+                        <!-- [ROW] serie_connect - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch checked
+                                    formControlName="serie_connect"></ui-switch>
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.serie_connect | switchText: 'Conn' }}</label>
+                        </div>
+                        <!-- [ROW] serie_connect - Fin -->
+
+
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+            <!-- COLLAPSABLE TAB_4: FIN -->
+
+            <br><br>
+
+
+
+        </span>
+    </form>
+
+
+
+    <br>
+</div>
+
+<br><br>
+
+
+
+
+
+
+<gcr-debug
+     [fatherName]=" 'setup.component' "
+     [formConfig]="formConfig"
+    [chartConfig]="chartConfig"
+>
+</gcr-debug>
+
+

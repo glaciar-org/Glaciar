@@ -1,0 +1,254 @@
+<div class="centrame">
+
+    <span>
+    <!-- <h4>Umbrales</h4><br> -->
+    <h6>Valores de referencia<br> {{ awq_system.desc }}.</h6>
+</span>
+
+<br>
+
+
+<form [formGroup]="formConfig">
+
+
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <!-- <i class="icon fas fa-mouse-pointer"></i> -->
+            <i class="icon fas fa-check-circle"></i>
+            <b>Variable Seleccionada</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <div>
+                <b>{{ param_id | textTransfPipe: 'paramDesc' }}</b>
+            </div>
+
+            <!-- ESCALA INI -->
+            <br><br>
+
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th width="38%"></th>
+                        <th width="12%" class="text-center">Mínimo  </th>
+                        <th width="12%" class="text-center">Promedio</th>
+                        <th width="12%" class="text-center">Máximo  </th>
+                        <th width="12%" class="text-center"></th>
+                        <th width="14%" class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{param_id | textTransfPipe: 'paramDesc' }}
+                        </td>
+                        <td class="text-center">{{ FORM_SYSTEM_CONTROLS[viewHelper.param_id_idx].value.min | numTransfPipe: 'numfmt' }}</td>
+                        <td class="text-center">{{ FORM_SYSTEM_CONTROLS[viewHelper.param_id_idx].value.avg | numTransfPipe: 'numfmt' }}</td>
+                        <td class="text-center">{{ FORM_SYSTEM_CONTROLS[viewHelper.param_id_idx].value.max | numTransfPipe: 'numfmt' }}</td>
+                        <td class="text-center">{{ param_id | textTransfPipe: 'unidad_small' }} </td>
+                        <td class="text-center">                                    
+                            <ui-switch size="small"
+                                    (valueChange)="onChange_range($event)"
+                                formControlName="umbrals_on">
+                            </ui-switch> 
+                        </td>
+                    </tr>
+                    <tr *ngIf="!formConfig.value.umbrals_on">
+                        <td colspan="6"> </td>
+                    </tr>
+                    <tr *ngIf="formConfig.value.umbrals_on">
+                        <td> </td>
+                        <td class="text-center"> 
+                            <i (click)="onClick_ViewUmbral( 'KeyAction.MIN', 7)"
+                                 class="text-success {{ this.viewHelper.icon_Row[7] }}" 
+                                 style="cursor: pointer"></i>
+                        </td>
+                        <td class="text-center"> 
+                            <i (click)="onClick_ViewUmbral( 'KeyAction.AVG', 8)"
+                                 class="text-success {{ this.viewHelper.icon_Row[8] }}" 
+                                 style="cursor: pointer"></i> 
+                        </td>
+                        <td class="text-center"> 
+                            <i (click)="onClick_ViewUmbral( 'KeyAction.MAX', 9)"
+                                 class="text-success {{ this.viewHelper.icon_Row[9] }}" 
+                                 style="cursor: pointer"></i>
+                        </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <!-- ESCALA FIN -->
+
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+
+
+<br>
+
+<nb-accordion>
+    <nb-accordion-item #item expanded="true">
+        <nb-accordion-item-header>
+            <i class="icon fas fa-microscope"></i>
+            <!-- <i class="icon fas fa-flask"></i> -->
+            <b>Sistemas de {{ quality_id | textTransfPipe: 'qq' }}</b>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <div>
+
+                <!-- UMBRALES INI -->
+                Valores según el sistema de calidad seleccionado:
+                <br><br>
+
+                <span formArrayName="umbrals">
+
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th width="38%"></th>
+                                <th width="12%" class="text-center">Mínimo</th>
+                                <th width="12%" class="text-center">Promedio</th>
+                                <th width="12%" class="text-center">Máximo</th>
+                                <th width="12%" class="text-center"></th>
+                                <th width="14%" class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let u of FORM_SYSTEM_CONTROLS; let i=index">
+
+                                <td>{{ u.value.var | textTransfPipe: 'paramDesc' }}</td>
+
+                                <ng-container *ngIf="!isCollapsed_ROW[i]">
+                                    <td class="text-center" width="10%"><span width="5%">{{ u.value.min | numTransfPipe: 'numfmt' }}</span></td>
+                                    <td class="text-center" width="10%"><span width="5%">{{ u.value.avg | numTransfPipe: 'numfmt' }}</span></td>
+                                    <td class="text-center" width="10%"><span width="5%">{{ u.value.max | numTransfPipe: 'numfmt' }}</span></td>
+                                </ng-container>
+                                <ng-container *ngIf="isCollapsed_ROW[i]" [formGroupName]="i"  >
+                                    
+                                    <td class="text-center" width="10%">
+                                        <input formControlName="min"  class="form-control text-xs-right font-small-3 mt-0 mb-0 ml-0 mr-0 pt-0 pb-0 pr-1 pl-2" [maxLength]=5 size=5 style="width: 60px">
+                                    </td>
+                                    <td class="text-center" width="10%">
+                                        <input formControlName="avg"  class="form-control text-xs-right font-small-3 mt-0 mb-0 ml-0 mr-0 pt-0 pb-0 pr-1 pl-2" [maxLength]=5 size=5 style="width: 60px">
+                                    </td>
+                                    <td class="text-center" width="10%">
+                                        <input formControlName="max"  class="form-control text-xs-right font-small-3 mt-0 mb-0 ml-0 mr-0 pt-0 pb-0 pr-1 pl-2" [maxLength]=5 size=5 style="width: 60px">
+                                    </td>
+
+                                </ng-container>
+
+                                <td class="text-center">{{ u.value.var | textTransfPipe: 'unidad_small' }}</td>
+
+                                <td width="10%" class="text-center"> 
+                                    <i (click)="onClick_RowEdit(i)" class="text-success {{ this.viewHelper.icon_Row[i] }}" style="cursor: pointer"></i>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <br>
+
+                </span>
+                <!-- UMBRALES FIN -->
+
+            </div>
+        </nb-accordion-item-body>
+    </nb-accordion-item>
+</nb-accordion>
+
+
+</form>
+
+<form [formGroup]="formSistema">
+
+        <br>
+
+        <nb-accordion>
+            <nb-accordion-item #item expanded="true">
+                <nb-accordion-item-header>
+                    <i class="icon far fa-object-ungroup"></i> <b>Sistema de Referencia</b>
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+
+
+
+
+        Seleccionar estándar:
+
+
+                <br><br><br>
+                <table class="table table-sm">
+                    <tbody>
+
+
+                    <tr *ngFor="let wqs of awq_system_all; let i=index">
+                        <td class="text-right valign-middle" width="5%">
+                                &nbsp;&nbsp; 
+                                <input type="radio" class="form-check-input"
+                                        formControlName="awq_estandar" 
+                                        name="awq_estandar" 
+                                            id="{{ wqs.code }}"
+                                        value="{{ wqs.code }}"> &nbsp;&nbsp;
+                        </td>
+                        <td class="text-left valign-middle">
+                                <label class="form-check-label" style="cursor: pointer" for="{{ wqs.code }}">{{ wqs.desc }}</label>
+                        </td>
+                        <td class="text-left valign-middle">
+                            <i  *ngIf="wqs.info" class="icon far fa-comment" id="eee_{{ i }}"
+                                style="cursor: pointer" 
+                                (click)="showInfo_QualitySystem(wqs)"></i> &nbsp;
+                        </td>
+                        <td class="text-left valign-middle">
+                            <a *ngIf="wqs.link" href="{{ wqs.link }}" target="referencia">
+                                <i class="font-small-3 fas fa-external-link-alt" style="cursor: pointer"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+                <br>
+
+
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+        
+
+
+
+
+
+</form>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<gcr-debug
+      [fatherName]=" 'umbral.component' "
+	  [formConfig]="formConfig"
+     [chartConfig]="chartConfig"
+           [form2]="formSistema"
+>
+</gcr-debug>
+
+

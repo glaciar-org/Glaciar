@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-tabset fullWidth>
+        <nb-tab tabIcon="nb-list"          tabTitle="Información">
+          <gcr-info 
+            [dataset_id]="dataset_id">
+          </gcr-info>
+        </nb-tab>
+        <nb-tab tabIcon="nb-shuffle"       tabTitle="Umbrales"  *ngIf=" dataset_id !== 'DS05' ">
+          <gcr-umbral
+            [dataset_id]="dataset_id"
+           	[quality_id]="quality_id"
+              [param_id]="param_id">
+          </gcr-umbral>
+        </nb-tab>
+        <nb-tab tabIcon="nb-paper-plane"   tabTitle="Outliers"  *ngIf=" dataset_id !== 'DS05' ">
+          <gcr-outlier
+            [dataset_id]="dataset_id"
+            [quality_id]="quality_id"
+              [param_id]="param_id">
+          </gcr-outlier>
+        </nb-tab>
+        <nb-tab tabIcon="nb-arrow-retweet" tabTitle="Configuración">
+          <gcr-setup>
+          </gcr-setup>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>
+
+
+<!-- 
+Iconos:
+
+  1) nb-list
+  2) Valores             : nb-shuffle
+  3) valores // outliers : nb-list   nb-paper-plane
+  4) Configuracion       : nb-edit nb-compose nb-loop-circled nb-loop nb-gear nb-arrow-retweet
+-->
