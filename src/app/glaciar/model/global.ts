@@ -98,11 +98,13 @@ export const GlaciaR_Viedma__CHARTLIB = 'GlaciaR_Viedma__CHARTLIB'
 
 
 export enum HOST_BACKEND  {
-    UPSALA            = 'HOST_BACKEND.UPSALA',
-    UPSALA_LOCALHIP   = 'http://192.168.1.120:5000/',
-    UPSALA_LOCALHOST  = 'http://localhost:5000/',
-    UPSALA_DEVELOP    = 'https://glaciar-upsala-backend-dev.herokuapp.com/',
-    UPSALA_MASTER     = 'https://glaciar-upsala-backend.herokuapp.com/',
+    UPSALA              = 'HOST_BACKEND.UPSALA',
+    UPSALA_LOCALHIP     = 'http://192.168.1.120:5000/',
+    UPSALA_LOCALHOST    = 'http://localhost:5000/',
+    UPSALA_DEVELOP      = 'https://glaciar-upsala-backend-dev.herokuapp.com/',
+    UPSALA_MASTER       = 'https://glaciar-upsala-backend.herokuapp.com/',
+    UPSALA_ORG_DEVELOP  = 'https://glaciar-org-backend-develop.herokuapp.com/',
+    UPSALA_ORG_MASTER   = 'https://glaciar-org-backend.herokuapp.com/',
 }
 
 export enum RES_TYPE  {
@@ -135,12 +137,15 @@ export function isHost_Local(): boolean {
 
 export function isHost_Prod(): boolean {
     return window.location.href.includes('glaciar-viedma.herokuapp.com')
+        || window.location.href.includes('glaciar-org.herokuapp.com')
         || window.location.href.includes('glaciar.org')
+        
 }
 
 export function isHost_Dev(): boolean {
     return window.location.href.includes('glaciar-viedma-dev.herokuapp.com')
-        || window.location.href.includes(              '-dev.herokuapp.com')  
+        || window.location.href.includes(              '-dev.herokuapp.com')
+        || window.location.href.includes(          '-develop.herokuapp.com')  
 }
 
 export function isLabMode(): boolean {
@@ -163,8 +168,10 @@ export function getValue(key: string): string {
     if (key === HOST_BACKEND.UPSALA) {
         if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHIP }
         // if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHOST }
-        if (isHost_Dev())   { return HOST_BACKEND.UPSALA_DEVELOP }
-        if (isHost_Prod())  { return HOST_BACKEND.UPSALA_MASTER }
+        // if (isHost_Dev())   { return HOST_BACKEND.UPSALA_DEVELOP }
+        // if (isHost_Prod())  { return HOST_BACKEND.UPSALA_MASTER }
+        if (isHost_Dev())   { return HOST_BACKEND.UPSALA_ORG_DEVELOP }
+        if (isHost_Prod())  { return HOST_BACKEND.UPSALA_ORG_MASTER }
     }
 
     if (key === GlaciaR_Viedma__CHARTLIB) {
