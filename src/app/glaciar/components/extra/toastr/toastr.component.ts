@@ -56,8 +56,8 @@ export class ToastrComponent implements OnInit {
     this.dateRange = this.dataService.getDataset_dates(this.dataset_id)
   }
 
-  onDateChange() {
-    console.debug('ToastrComponent:onDateChange() ')
+  onDateChange(event) {
+    console.debug(`ToastrComponent:onDateChange(${JSON.stringify(event)}) `)
   }
   // Success Type
   typeInfo() {
