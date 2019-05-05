@@ -14,16 +14,16 @@ export class InfoComponent implements OnInit {
 
   @Input() dataset_id: Global.DS
 
-  lat: number
-  lng: number
+  zoom: number = 2
+  
+  // Google Center map lat-long
+  lat: number = 8.00
+  lng: number = 8.00
+
+  markers: DomainModel.Marker[] = []
 
   frecuencia: '15m' | 'hora' | 'dia' | 'mes' | 'anual'
   dateRange: DomainModel.DateRange
-
-  isCollapsed_Tab: Array<boolean> = [ false, false, false, false, false ]
-  viewHelper = {
-    icon_Tab: [ '', '', '', '', '' ],
-  }
 
   constructor(private dataService: DataService) {
 
@@ -45,23 +45,44 @@ export class InfoComponent implements OnInit {
     console.debug(`InfoComponent::ngOnInit() . `)
     console.debug(`InfoComponent::ngOnInit() -> d/${this.dataset_id}/ ...  `)
 
-    this.viewHelper.icon_Tab.forEach((e,i) => this.viewHelper.icon_Tab[i] = this.getIcon(i))
-
-
-    this.dateRange = this.dataService.getDataset_dates(this.dataset_id)
+    this.dateRange  = this.dataService.getDataset_dates(this.dataset_id)
     this.frecuencia = this.dataService.getDataset_frecuencia(this.dataset_id)
 
-    const loc = this.dataService.getDataset_location(this.dataset_id)
-    this.lat = loc.latitude
-    this.lng = loc.longitude
+    this.getMarkers()
   }
 
-  getIcon = (i: number) => ((this.isCollapsed_Tab[i]) ? 'ft-plus-square' : 'ft-minus-square' )
+  getMarkers() {
 
-  iconClicked = (i: number) => {
-    this.toggle(this.isCollapsed_Tab, i)
+    this.dataService.getDatasets(this.dataset_id).forEach(d => {
+
+      const marker: DomainModel.Marker = d.location
+
+      marker.name  = d.name
+      marker.label = d.code
+      marker.draggable = false
+      marker.link  = '/#' + Global.getDatasetHome(d.code)
+
+      this.markers.push(marker)
+    })
+
+    if (Global.isDS05(this.dataset_id)) {
+
+      console.debug(`InfoComponent::isDS05(${this.dataset_id}): `)
+
+      Global.PAISES_EMISORES_CO2.forEach(d => {
+        let markerPaises: DomainModel.Marker = new DomainModel.Marker() 
+
+        markerPaises.latitude = d.latitude
+        markerPaises.longitude = d.longitude
+        markerPaises.name  = 'Emisiones CO2 por Paises'
+        markerPaises.label = Global.DS.DS05a
+        markerPaises.draggable = false
+        markerPaises.link  = '/#' + Global.getDatasetHome(Global.DS.DS05a)
+
+        this.markers.push(markerPaises)
+      })
+    }
+
+    console.log(`getMarkers() = ${JSON.stringify(this.markers)}`)
   }
-
-  toggle = (e, i) => e[i]=!e[i]
-
 }
