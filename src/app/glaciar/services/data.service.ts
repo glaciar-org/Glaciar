@@ -170,7 +170,7 @@ export class DataService {
       set(e, Global.VAR.NO2,        0,  200)   // [0,  200] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
 
 
-      set(e, Global.VAR.Temp,      16,  44)
+      set(e, Global.VAR.Temp,      0,   50)
     })
 
     return outliers

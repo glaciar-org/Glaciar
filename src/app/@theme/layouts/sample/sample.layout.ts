@@ -37,6 +37,7 @@ import { StateService } from '../../../@core/utils';
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
 
+      <!--
       <nb-layout-column start class="small" *ngIf="layout.id === 'two-column' || layout.id === 'three-column'">
         <nb-menu [items]="subMenu"></nb-menu>
       </nb-layout-column>
@@ -44,11 +45,14 @@ import { StateService } from '../../../@core/utils';
       <nb-layout-column class="small" *ngIf="layout.id === 'three-column'">
         <nb-menu [items]="subMenu"></nb-menu>
       </nb-layout-column>
+      --> 
+
 
       <nb-layout-footer fixed>
         <ngx-footer></ngx-footer>
       </nb-layout-footer>
 
+      <!--
       <nb-sidebar class="settings-sidebar"
                    tag="settings-sidebar"
                    state="collapsed"
@@ -56,6 +60,8 @@ import { StateService } from '../../../@core/utils';
                    [end]="sidebar.id !== 'end'">
         <ngx-theme-settings></ngx-theme-settings>
       </nb-sidebar>
+      --> 
+      
     </nb-layout>
     <ngx-toggle-settings-button></ngx-toggle-settings-button>
   `,
