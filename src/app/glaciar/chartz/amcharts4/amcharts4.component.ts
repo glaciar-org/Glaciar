@@ -239,7 +239,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
   loadTheData_And_DrawAmChart4 (src: string) {
 
-    console.debug(`Amcharts4Component::loadTheData_And_DrawAmChart4(src=${src}) context = ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter))
+    console.debug(`Amcharts4Component::loadTheData_And_DrawAmChart4(src=${src}) context = ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter, this.dateRange))
 
     const AWQ = (this.quality_id === Global.QUALITY_TAB.AIRQ) ? ST.AWQ.REF_BIB_AIRQ : ST.AWQ.REF_BIB
 
@@ -274,7 +274,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         // this.setNewData(ndata)
 
-        console.info(`GET getBackendDataByType : ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter))
+        console.info(`GET getBackendDataByType : ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter, this.dateRange))
 
         // console.debug('RTA getBackendDataByType : ' + JSON.stringify(ndata))
 
@@ -337,7 +337,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
       const esMultiples = nseries.series.length > 1
 
-      if (i === (nseries.series.length - 1) ) {
+      // if (i === (nseries.series.length - 1) ) {
+        if (i === (0) ) {
 
           serie.tooltipText = chx.tooltipText(esMultiples, this.param_id)
           serie.tooltip.y = -115
@@ -476,66 +477,83 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       
       // this.series = new Array()
 
+      let pserie; 
+
       for (let i = 0; i < ndata.series.length; i++) {
 
           const datasetId = ndata.series[i]
           const serie = this.addSerieToChart_SETUP5(chart, i, ndata)
-
-          if (i === 0) {
-
-              if (this.chartConfig.scrollbarX) {
-
-                const posicion = (this.chartConfig.scrollbarY_abajo) ? chart.bottomAxesContainer : chart.topAxesContainer
-
-                // if (this.chartConfig.scrollbarY_preview) {
-                //     const scrollbarX = new am4charts.XYChartScrollbar()
-                //     scrollbarX.series.push(serie)
-
-                //     // ------------------------------------------------------------
-                //     // scrollbarX.scrollbarChart::
-                //     //    It can be configured just like any other XYChart.
-                //     // scrollbarX.scrollbarChart.seriesContainer.hide()  // No dibuja a la serie
-                //     scrollbarX.scrollbarChart.fontSize = 8
-                //     // ------------------------------------------------------------
-
-                //     chart.scrollbarX = scrollbarX
-                //     chart.scrollbarX.parent = posicion
-                //     chart.scrollbarX.thumb.minWidth = 50
-                // } else {
-                //     chart.scrollbarX = new am4core.Scrollbar()
-                //     chart.scrollbarX.parent = posicion
-                // }
-
-                chart.scrollbarX = new am4core.Scrollbar()
-                chart.scrollbarX.parent = posicion
-
-              }
-
-
-
-              if (this.chartConfig.scrollbarY) {
-                this.scrollbarY = new am4core.Scrollbar()
-                chart.scrollbarY = this.scrollbarY
-                chart.scrollbarY.thumb.minHeight = 50
-                // chart.scrollbarY.__disabled = false
-              }
-
-
-              if (this.chartConfig.cursor) {
-                // Make a panning cursor
-                this.cursor = new am4charts.XYCursor()
-                chart.cursor = this.cursor
-                chart.cursor.snapToSeries = serie
-                chart.cursor.xAxis = dateAxis
-                this.doActionSetup_cursor()
-                if (this.chartConfig.zoom) {
-                    chart.cursor.behavior = this.chartConfig.zoom_tipo
-                }
-
-
-              }
+        
+          if (i === ndata.series.length) {
+              pserie = serie
           }
       }
+
+
+
+      if (this.chartConfig.scrollbarX) {
+
+          const posicion = (this.chartConfig.scrollbarY_abajo) ? chart.bottomAxesContainer : chart.topAxesContainer
+
+          // let scrollbarX = new am4charts.XYChartScrollbar();
+  // scrollbarX.series.push(series);
+  // chart.scrollbarX = scrollbarX;
+          // if (this.chartConfig.scrollbarY_preview) {
+          //     const scrollbarX = new am4charts.XYChartScrollbar()
+          //     scrollbarX.series.push(pserie)
+
+          //     // ------------------------------------------------------------
+          //     // scrollbarX.scrollbarChart::
+          //     //    It can be configured just like any other XYChart.
+          //     // scrollbarX.scrollbarChart.seriesContainer.hide()  // No dibuja a la serie
+          //     scrollbarX.scrollbarChart.fontSize = 8
+          //     // ------------------------------------------------------------
+
+          //     chart.scrollbarX = scrollbarX
+          //     chart.scrollbarX.parent = posicion
+          //     chart.scrollbarX.thumb.minWidth = 50
+          // } else {
+          //     chart.scrollbarX = new am4core.Scrollbar()
+          //     chart.scrollbarX.parent = posicion
+          // }
+
+          chart.scrollbarX = new am4core.Scrollbar()
+          chart.scrollbarX.parent = posicion
+
+
+
+          console.log('que pasa')
+        }
+
+
+
+        if (this.chartConfig.scrollbarY) {
+          this.scrollbarY = new am4core.Scrollbar()
+          chart.scrollbarY = this.scrollbarY
+          chart.scrollbarY.thumb.minHeight = 50
+          // chart.scrollbarY.__disabled = false
+        }
+
+
+        if (this.chartConfig.cursor) {
+          // Make a panning cursor
+          this.cursor = new am4charts.XYCursor()
+          chart.cursor = this.cursor
+          chart.cursor.snapToSeries = pserie
+          chart.cursor.xAxis = dateAxis
+          this.doActionSetup_cursor()
+          if (this.chartConfig.zoom) {
+              chart.cursor.behavior = this.chartConfig.zoom_tipo
+          }
+
+
+
+          let scrollbarX = new am4charts.XYChartScrollbar();
+          scrollbarX.series.push(pserie);
+          chart.scrollbarX = scrollbarX;
+
+      }
+  
 
       chart.legend = new am4charts.Legend()
       chart.legend.fontSize = 12

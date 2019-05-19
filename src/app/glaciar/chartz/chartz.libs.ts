@@ -9,10 +9,13 @@ import * as moment from 'moment'
 export function getContext(dataset_id: Global.DS,
     quality_id: Global.QUALITY_TAB,
       param_id: Global.VAR,
-    dateFilter: DomainModel.DateFilter): string {
+    dateFilter: DomainModel.DateFilter,
+     dateRange: DomainModel.DateRange): string {
     const context = `  d/${dataset_id}/q/${quality_id}/p/${param_id}/? `
                       + ` dateFilter= { from: ${Global.ff1_Date(dateFilter.from)},`
                                      + `  to: ${Global.ff1_Date(dateFilter.to)} }`
+                       + ` dateRange= { minDate: ${Global.ff1_Date(dateRange.minDate)},`
+                                   + `  minDate: ${Global.ff1_Date(dateRange.maxDate)} }`
     return context
 }
 
