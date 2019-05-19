@@ -1,11 +1,11 @@
-const compression = require('compression');
+// // const compression = require('compression');
 const path = require('path');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 4205;
 
 // Gzip
-app.use(compression());
+// app.use(compression());
 
 // Serve static files from the dist directory
 app.use(express.static(__dirname + '/dist'));
