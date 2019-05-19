@@ -6,6 +6,7 @@ import { StateService } from '../../../@core/utils';
   selector: 'ngx-toggle-settings-button',
   styleUrls: ['./toggle-settings-button.component.scss'],
   template: `
+  <--
     <button class="toggle-settings"
             (click)="toggleSettings()"
             [class.expanded]="expanded"
@@ -14,6 +15,7 @@ import { StateService } from '../../../@core/utils';
     >
       <i class="nb-gear"></i>
     </button>
+    -->
   `,
 })
 export class ToggleSettingsButtonComponent {

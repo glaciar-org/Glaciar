@@ -86,6 +86,22 @@ export const GlaciaR_Viedma__RUNTIME         = 'GlaciaR_Viedma__RUNTIME'
 export const GlaciaR_Viedma__RUNTIME_MASTER  = 'HEROKU [MASTER]'
 export const GlaciaR_Viedma__RUNTIME_DEVELOP = 'HEROKU [DEVELOP]'
 
+
+export const PAISES_EMISORES_CO2 = [
+    // { name: 'Alemania',  latitude:   52.520008,   longitude:  13.404954  },
+    { name: 'Brasil',    latitude:  -23.5475006,  longitude: -46.6361084 },
+    { name: 'Bolivia',   latitude:  -16.5000000,  longitude: -68.1500000 },
+    { name: 'Chile',     latitude:  -35.675148,   longitude: -71.5429688 },
+    { name: 'Argentina', latitude:  -31.4135000,  longitude: -64.1810500 },
+]
+// Berlin, Germany    --> Latitude and longitude  52.520008, 13.404954.
+// São Paulo, Brasil  -->  latitud -23.5475006 y longitud -46.6361084
+// Bolivia, La Paz    -->   -16.5, -68.1500015
+// Chile              -->  la latitud -35.675148 y longitud -71.5429688
+// Argentina          -->  latitud -38.4160957 y longitud -63.6166725.
+// Córdoba            -->  Latitud: -31.4135000 Longitud: -64.1810500 
+
+
 export enum GlaciaR_CHARTLIB  {
     CHARTJS       = 'CHARTJS',
     C3_D3         = 'C3_D3',
@@ -93,8 +109,6 @@ export enum GlaciaR_CHARTLIB  {
 }
 
 export const GlaciaR_Viedma__CHARTLIB = 'GlaciaR_Viedma__CHARTLIB'
-
-
 
 
 export enum HOST_BACKEND  {

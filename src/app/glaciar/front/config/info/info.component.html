@@ -39,14 +39,27 @@
             <i class="icon fas fa-map-marker-alt"></i> <b>Ubicación</b>
         </nb-accordion-item-header>
         <nb-accordion-item-body>
-            <div style="margin: 20px">
-                <agm-map [latitude]="lat" 
-                        [longitude]="lng">
-                    <agm-marker [latitude]="lat" 
-                                [longitude]="lng">
-                    </agm-marker>
-                </agm-map>
-            </div>
+
+            <agm-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom">
+
+                <agm-marker
+                    *ngFor="let m of markers"
+                    [latitude] ="m.latitude"
+                    [longitude]="m.longitude">
+
+                    <agm-info-window>
+                    <strong>
+                        <a href="{{ m.link }}">{{ m.name }}</a>
+                    </strong>
+                    </agm-info-window>
+
+                </agm-marker>
+
+            </agm-map>
+            
         </nb-accordion-item-body>
     </nb-accordion-item>
 </nb-accordion>
@@ -74,7 +87,7 @@
 
 </div>
 
-<br><br>
+<!-- <br><br> -->
 
 
 
