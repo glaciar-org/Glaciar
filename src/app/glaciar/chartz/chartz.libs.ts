@@ -4,7 +4,32 @@ import { DomainModel, KEY } from '../model/domainmodel'
 import * as Global from '../model/global'
 import * as moment from 'moment'
 
+export const MIN = 'MIN'
+export const AVG = 'AVG'
+export const MAX = 'MAX'
 
+export function round2d(n) {
+    return Math.round(n * 100) / 100
+} 
+
+export function getMaximoValorActivo(self): number {
+
+    let UMBRAL = self.glaciarStorage.getUmbral(self.param_id, self.chartConfig.awq_estandar)
+    let maxValorActivo = 0
+    if (self.chartConfig.umbrals_on && self.chartConfig.umbral_min) {
+        maxValorActivo = UMBRAL.min
+    }
+    if (self.chartConfig.umbrals_on && self.chartConfig.umbral_avg) {
+        maxValorActivo = UMBRAL.avg
+    }
+    if (self.chartConfig.umbrals_on && self.chartConfig.umbral_max) {
+        maxValorActivo = UMBRAL.max
+    }
+
+    console.debug(`getMaximoValorActivo() = ${maxValorActivo} `)
+
+    return maxValorActivo * 1.15
+}
 
 export function getContext(dataset_id: Global.DS,
     quality_id: Global.QUALITY_TAB,

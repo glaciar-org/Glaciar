@@ -74,6 +74,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
   private axisRange_avg;
   private axisRange_max;
 
+  private myMax = { value: 0, step: 0, default_min: 0, default_max: 0}
+
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
@@ -444,14 +446,32 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       this.doActionSetup_labelY()
 
       if (this.chartConfig) {
-
         if (this.quality_id === Global.QUALITY_TAB.WATERQ) {
             // Pad values by 20%
             valueAxis.extraMin = 0.2
             valueAxis.extraMax = 0.2
         }
+      }
 
-        this.doActionSetup_SUPER_umbral()
+          
+      let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
+
+      this.myMax.default_max = valueAxis.max
+      this.myMax.default_min = valueAxis.min
+      this.myMax.value = chx.getMaximoValorActivo(this)
+      this.myMax.step  = chx.round2d((this.myMax.value / 10))
+
+      if (this.chartConfig.umbral_min) {
+          this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${UMBRAL.min}`) 
+      }
+
+      if (this.chartConfig.umbral_avg) {
+          this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${UMBRAL.avg}`) 
+      }
+
+      if (this.chartConfig.umbral_max) {
+          this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
+          Max ${UMBRAL.max}`) 
       }
 
       // --> Sospecha de Antiperformante:
@@ -683,22 +703,27 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     console.debug(`click_Zoom_Out Fin`)
   }
 
-  // --[ Botoneraa ]-------------
-  click_Button_UP_MAX() {
-    console.debug(`click_Button_UP_MAX[]`)
-    
+  // --[ Botoneraa ]-------------  
+  click_Button_UP_MAX($event) {
+    $event.preventDefault();
+    this.myMax.value    = chx.round2d(this.myMax.value + this.myMax.step)
+    this.valueAxis.max  = chx.round2d(this.myMax.value)
+    console.debug(`click_Button_#UP_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
   }
 
-  click_Button_DW_MAX() {
-    console.debug(`click_Button_DW_MAX[]`)
-    
+  click_Button_DW_MAX($event) {
+    $event.preventDefault();
+    this.myMax.value    = chx.round2d(this.myMax.value - this.myMax.step)
+    this.valueAxis.max  = this.myMax.value
+    console.debug(`click_Button_#DW_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
   }
 
-  click_Button_RESET() {
-    console.debug(`click_Button_RESET[]`)
-
+  click_Button_RESET($event){
+    $event.preventDefault();
+    console.debug(`click_Button_#RESET[ myMax=${JSON.stringify(this.myMax)} ]`)
+    this.valueAxis.max = this.myMax.default_max
+    this.valueAxis.min = this.myMax.default_min
   }
-  
 
   // --[ Botonera ]-------------
   onDateChange(dates) {
@@ -738,27 +763,28 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
   hayUmbral = (u) => u !== Global.SD && typeof u !== 'undefined' && u !== null
 
   getUmbralInfo = (u) => (this.hayUmbral(u)) ? `[min=${u.min}, avg=${u.avg}, max=${u.max}]` : ` ... umbrales undefined ... `
-  
-  doActionSetup_SUPER_umbral = () => {
-    
-    let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
 
-    console.debug(`Amcharts4Component::demoAmChart4() ${this.param_id} = ${this.getUmbralInfo(UMBRAL)} `)
+  doCreate_UmbralLine = (op: string, UMBRAL_VALUE, text) => {
 
-    if (this.hayUmbral(UMBRAL)) {
+    if (this.hayUmbral(UMBRAL_VALUE)) {
+        const axisRange = this.valueAxis.axisRanges.create()
+        axisRange.value = UMBRAL_VALUE
+        axisRange.grid.stroke = am4core.color('#396478')
+        axisRange.grid.strokeWidth = 2
+        axisRange.grid.strokeOpacity = 1
 
-        this.doActionSetup_umbralRange('MIN', UMBRAL.min, `Min ${UMBRAL.min}` )
-        this.doActionSetup_umbralRange('AVG', UMBRAL.avg, `Avg ${UMBRAL.avg}` )  
-        this.doActionSetup_umbralRange('MAX', UMBRAL.max, `${this.param_id}
-        Max ${UMBRAL.max}` )
+        axisRange.label.inside = true
+        axisRange.label.text = text
+        axisRange.label.fill = axisRange.grid.stroke
+        axisRange.label.verticalCenter = 'bottom'
 
-        if (this.hayUmbral(UMBRAL.min)) this.valueAxis.min = UMBRAL.min
-        if (this.hayUmbral(UMBRAL.max)) this.valueAxis.max = UMBRAL.max
+        axisRange.visible = false
 
-        this.doActionSetup_umbral_min()
-        this.doActionSetup_umbral_avg()
-        this.doActionSetup_umbral_max()
+        if (op === chx.MIN) this.axisRange_min = axisRange
+        if (op === chx.AVG) this.axisRange_avg = axisRange
+        if (op === chx.MAX) this.axisRange_max = axisRange
 
+        return axisRange
     }
   }
 
