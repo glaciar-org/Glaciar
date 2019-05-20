@@ -8,10 +8,10 @@
 
         <div class="card-header">
             <div class="row">
-                <span class="col-sm-5">
+                <span class="col-6">
                     <b> {{ param_id | textTransfPipe: 'paramDesc' }} </b> 
                 </span>
-                <span class="col-sm-5">
+                <span class="col-4">
                     <b> Desde: </b> {{ dateFilter.from |  dateFormatPipe: 'ff1_Date' }} &nbsp;&nbsp;
                     <b> Hasta: </b> {{ dateFilter.to   |  dateFormatPipe: 'ff1_Date' }} &nbsp;&nbsp;
                     <gcr-datepicker
@@ -21,14 +21,15 @@
                         [display_mode]=" 'DISPLAY_MODE_ICON' ">
                     </gcr-datepicker>
                 </span>
-                <span class="col-sm-2 text-right">
+
+                <span class="col text-right">
                     <a (click)="doDownload($event)" href="#" style="text-decoration: none;"><i class="fa fa-download"></i> &nbsp; export to CSV</a>
                 </span>
+
             </div>
        </div>
 
-       
-  
+
        <div class="card-body">
             <div class="card-block">
 
@@ -50,7 +51,7 @@
                             -->
 
                     </div>
-                    <div class="col-7">
+                    <div class="col-5">
 
                         <span *ngIf="!viewHelper.isDS05">
                             <!-- TABS de VARIABLES -->
@@ -122,6 +123,11 @@
                             </ul>
                         </span>
 
+                    </div>
+                    <div class="col botones text-right">
+                        <a (click)="click_Button_UP_MAX()" href="#" style="text-decoration: none;"><i class="fas fa-angle-double-up"></i> &nbsp; </a>
+                        <a (click)="click_Button_DW_MAX()" href="#" style="text-decoration: none;"><i class="fas fa-angle-double-down"></i> &nbsp; </a>
+                        <a (click)="click_Button_RESET()"  href="#" style="text-decoration: none;"><i class="fas fa-undo-alt"></i> &nbsp; </a>
                     </div>
                 </div>
 

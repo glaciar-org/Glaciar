@@ -683,8 +683,24 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     console.debug(`click_Zoom_Out Fin`)
   }
 
-
   // --[ Botoneraa ]-------------
+  click_Button_UP_MAX() {
+    console.debug(`click_Button_UP_MAX[]`)
+    
+  }
+
+  click_Button_DW_MAX() {
+    console.debug(`click_Button_DW_MAX[]`)
+    
+  }
+
+  click_Button_RESET() {
+    console.debug(`click_Button_RESET[]`)
+
+  }
+  
+
+  // --[ Botonera ]-------------
   onDateChange(dates) {
     console.debug(`Amcharts4Component::onDateChange() @Output Capturado ::  ${Global.ff1_Date(dates.from)} - ${Global.ff1_Date(dates.to)}`)
 
