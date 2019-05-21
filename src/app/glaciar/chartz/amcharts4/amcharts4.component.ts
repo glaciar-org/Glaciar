@@ -690,24 +690,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     this.axisRange_max.visible = false
   }
 
-  click_Button_TEST(opcion, $event?) {
-    if ($event !== undefined) $event.preventDefault()
-    let k = (opcion === chx.UP) ? 1.1 
-          : (opcion === chx.DW) ? 0.9 : 1
-    this.axisRange_max.value = this.axisRange_max.value * k
-    this.axisRange_max.text  = `${this.param_id}
-    Max ${chx.round2d(this.axisRange_max.value)}`    
-  }
-
-  click_Button_POPUP(opcion, $event?) {
-    if ($event !== undefined) $event.preventDefault()
-    let title = (opcion === chx.MAX) ? 'Umbral Max'
-              : (opcion === chx.AVG) ? 'Umbral AVG'
-              : (opcion === chx.MIN) ? 'Umbral MIN' : 'wip'
-    this.chart.openModal(title, "Value") 
-  }
-  
-
   doResize_HIGH(opcion, $event?) {
     if ($event !== undefined) $event.preventDefault()
     let step = (opcion === chx.UP) ? this.myMax.step 

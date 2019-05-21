@@ -97,10 +97,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
 
     // this.formConfig = this.fb.group(this.chartConfig)
     this.formConfig = this.fb.group({
-      umbrals_on: false,
-      umbral_min: false,
-      umbral_avg: false,
-      umbral_max: false,
       umbrals: this.fb.array([]),
     })
 
@@ -224,10 +220,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
     })
 
     this.formConfig.setValue({
-        umbrals_on: false,
-        umbral_min: false,
-        umbral_avg: false,
-        umbral_max: false,
         umbrals: fffSystem
     })
 
