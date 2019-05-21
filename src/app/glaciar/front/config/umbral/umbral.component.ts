@@ -76,7 +76,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
 
   resetViewHelper() {
     this.isCollapsed_ROW    .forEach((e,i) => this.isCollapsed_ROW[i]     = false)
-    this.viewHelper.icon_Tab.forEach((e,i) => this.viewHelper.icon_Tab[i] = this.getIconTab(i))
     this.viewHelper.icon_Row.forEach((e,i) => this.viewHelper.icon_Row[i] = this.getIconRow(i))
     this.viewHelper.param_id_idx = this.getParamIDX(this.param_id, this.UMBRALES)
   }
@@ -87,8 +86,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
 
     this.chartConfig    = this.dataService.getChartConfigDefautl(this.quality_id)
 
-    // lo borro ... porque se supone que tanto glaciar como umbral como outlier estan ok seteados por config componten
-    // this.glaciarStorage.clear()  // x -> AWQ_SELECTED
     let AWQ_SELECTED    = this.chartConfig.awq_estandar
 
     this.awq_system     = this.umbralService.getAWQ_System(AWQ_SELECTED)
@@ -100,10 +97,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
 
     // this.formConfig = this.fb.group(this.chartConfig)
     this.formConfig = this.fb.group({
-      umbrals_on: false,
-      umbral_min: false,
-      umbral_avg: false,
-      umbral_max: false,
       umbrals: this.fb.array([]),
     })
 
@@ -126,6 +119,8 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
       // CADA VEZ QUE CAMBIA EL FROM, ACTUALIZO LOS VALORES DE LOS UMBRALES DEL STORAGE
       this.glaciarStorage.setUmbrales(this.chartConfig.umbrals)
 
+      // Emite, pero sin reload el Sistema
+      this.sendAction(this.chartConfig)
     })
 
     /**
@@ -167,13 +162,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
 
-  }
-
-
-  onChange_range(event) {
-    console.debug(`UmbralComponent::onChange_range(${event})`)
-    // Reload el Sistema
-    this.sendObject(this.chartConfig)
   }
 
   getParamIDX(param: Global.VAR, UMBRALES: Array<Umbral>): number {
@@ -232,10 +220,6 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
     })
 
     this.formConfig.setValue({
-        umbrals_on: false,
-        umbral_min: false,
-        umbral_avg: false,
-        umbral_max: false,
         umbrals: fffSystem
     })
 
@@ -246,78 +230,24 @@ export class UmbralComponent implements OnInit, OnChanges, OnDestroy {
     console.debug(`[A] onClick_RowEdit:: [ i=${i}, ${this.isCollapsed_ROW} ]`)
     this.toggle(this.isCollapsed_ROW, i)
     this.viewHelper.icon_Row[i] = this.getIconRow(i)
-
-    // Reload el Sistema
-    this.sendObject(this.chartConfig)
   }
 
-  onClick_ViewUmbral(key: KeyAction, i: number) {
-
-    // Logica de UI:
-    console.debug(`onClick_ViewUmbral:?: [ ${JSON.stringify(key)}, ${this.isCollapsed_ROW} ]`)
-    this.toggle(this.isCollapsed_ROW, i)
-    this.viewHelper.icon_Row[i] = this.getIconRow(i)
-
-    // logica de "negocio"
-    if (key === KeyAction.MIN) { this.formConfig.controls['umbral_min'].setValue(this.isCollapsed_ROW[i]) }
-    if (key === KeyAction.AVG) { this.formConfig.controls['umbral_avg'].setValue(this.isCollapsed_ROW[i]) }
-    if (key === KeyAction.MAX) { this.formConfig.controls['umbral_max'].setValue(this.isCollapsed_ROW[i]) }
-
-    // Reload el Sistema
-    this.sendObject(this.chartConfig)
-  }
-
-  // doReload() {
-    //   this.seed = 'true-' + Math.random()
-    //   console.debug('doReload:: [' + this.seed + ']' )
-    // }
 
   sendObject(obj): void {
      console.debug(`UmbralComponent:[IWR]:sendObject(${obj})`)
      this.messageService.sendObject(obj)
   }
 
-  getIconTab = (n: number) => ((this.isCollapsed_Tab[n]) ? 'ft-plus-square' : 'ft-minus-square' )
+  sendAction(obj): void {
+     console.debug(`UmbralComponent:[IWR]:sendAction(${obj})`)
+     this.messageService.sendAction(obj)
+  }
 
-  getIconRow = (n: number) => (n>=7) ? ((this.isCollapsed_ROW[n]) ? 'far fa-eye'  : 'far fa-eye-slash' )  // iconos: 7, 8, 9
-                                     : ((this.isCollapsed_ROW[n]) ? 'far fa-edit' : 'fas fa-pencil-alt' )  // iconos: 0 ... 5
+  getIconRow = (n: number) => ((this.isCollapsed_ROW[n]) ? 'far fa-edit' : 'fas fa-pencil-alt' )  // iconos: 0 ... 5
 
-  iconClicked = (i: number) => {
-    this.toggle(this.isCollapsed_Tab, i)
-  }
+
 
   toggle = (e, i) => e[i]=!e[i]
 }
-
-
-
-
-export enum KeyAction {
-  MIN      = 'KeyAction.MIN',
-  AVG      = 'KeyAction.AVG',
-  MAX      = 'KeyAction.MAX',
-  EDIT     = 'KeyAction.EDIT',
-}
-
-export enum IconType {
-  DEFAULT  = 'IconType.default',
-  EYE      = 'IconType.eye',
-  PENCIL   = 'IconType.pencil',
-}
-
-
-
-// <i class="fas fa-wrench"></i>
-// <i class="fas fa-paper-plane"></i>
-// <i class="far fa-paper-plane"></i>
-
-//  <i class="fas fa-edit"></i>
-//  <i class="fas fa-edit"></i>
-//  <i class="fas fa-pen"></i>
-
-// <i class="far fa-eye"></i>
-// <i class="far fa-eye-slash"></i>
-
-
 
 
