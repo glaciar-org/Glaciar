@@ -8,6 +8,9 @@ export const MIN = 'MIN'
 export const AVG = 'AVG'
 export const MAX = 'MAX'
 
+export const UP = 'UP'
+export const DW = 'DW'
+
 export function round2d(n) {
     return Math.round(n * 100) / 100
 } 

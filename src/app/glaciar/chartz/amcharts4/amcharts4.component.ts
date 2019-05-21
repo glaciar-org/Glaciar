@@ -707,8 +707,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
    * Muestra TODAS! las barras
    * => debería ajusta la altua
    */
-  click_Button_BARS($event) {
-    $event.preventDefault()
+  click_Button_BARS($event?) {
+    if ($event !== undefined) $event.preventDefault()
     this.myMax.value   = chx.getMaximoValor(this, this.valueAxis.max)
     this.valueAxis.max = this.myMax.value 
     this.myMax.step    = this.valueAxis.step
@@ -717,42 +717,35 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     this.axisRange_max.show()
   }
 
-  click_Button_NOT_BARS($event) {
-    $event.preventDefault()
+  click_Button_NOT_BARS($event?) {
+    if ($event !== undefined) $event.preventDefault()
     this.axisRange_min.visible = false
     this.axisRange_avg.visible = false
     this.axisRange_max.visible = false
   }
 
-  /**
-   * Sube la altura de a un step.
-   * Pero si el gráfico está visible, debería mostrarlo
-   */
-  click_Button_UP_MAX($event) {
-    $event.preventDefault()
-    this.myMax.value    = this.myMax.value + this.myMax.step
+  click_Button_TEST(opcion, $event?) {
+    if ($event !== undefined) $event.preventDefault()
+    let k = (opcion === chx.UP) ? 1.1 
+          : (opcion === chx.DW) ? 0.9 : 1
+    this.axisRange_max.value = this.axisRange_max.value * k
+    this.axisRange_max.text  = `${this.param_id}
+    Max ${chx.round2d(this.axisRange_max.value)}`    
+  }
+
+
+  doResize_HIGH(opcion, $event?) {
+    if ($event !== undefined) $event.preventDefault()
+    let step = (opcion === chx.UP) ? this.myMax.step 
+             : (opcion === chx.DW) ? this.myMax.step * -1 : 0
+    this.myMax.value    = this.myMax.value + step
     this.valueAxis.max  = this.myMax.value
     this.myMax.step     = this.valueAxis.step 
-    console.debug(`click_Button_#UP_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max}, valueAxis.step=${this.valueAxis.step} ]`)
+    console.debug(`click_Button_#HIGH[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max}, valueAxis.step=${this.valueAxis.step} ]`)
   }
 
-  /**
-   * Baja la altura de a un "step"
-   */
-  click_Button_DW_MAX($event) {
-    $event.preventDefault()
-    this.myMax.value    = this.myMax.value - this.myMax.step
-    this.valueAxis.max  = this.myMax.value
-    this.myMax.step     = this.valueAxis.step
-    console.debug(`click_Button_#DW_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max}, valueAxis.step=${this.valueAxis.step} ]`)
-  }
-
-  /**
-   * Elimina los umbrales si existen. (?)
-   * La altura al componente orginal
-   */
-  click_Button_RESET($event){
-    $event.preventDefault()
+  doReset_HIGH($event?){
+    if ($event !== undefined) $event.preventDefault()
     console.debug(`click_Button_#RESET[ myMax=${JSON.stringify(this.myMax)} ]`)
     this.valueAxis.max = this.myMax.default_max
     this.valueAxis.min = this.myMax.default_min
@@ -842,16 +835,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
 
 
-  }
-
-  click_Button_TEST($event, opcion) {
-    $event.preventDefault()
-    let k = (opcion === 'UP') ? 1.1 : 0.9
-    this.axisRange_max.value = this.axisRange_max.value * k
-    this.axisRange_max.text  = `${this.param_id}
-    Max ${chx.round2d(this.axisRange_max.value)}`
-
-    
   }
 
 
