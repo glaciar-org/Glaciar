@@ -42,7 +42,7 @@ export class DataService {
           zoom: true,
           zoom_tipo: ChartConfig.ZOOM_Command.zoomX,
 
-          umbrals_on: false,
+          umbrals_on: true,
           umbral_min: true,
           umbral_avg: true,
           umbral_max: true,

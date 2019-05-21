@@ -170,11 +170,11 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         // OK!
         this.doActionSetup_labelY()
-        // this.doActionSetup_umbral_min()
-        // this.doActionSetup_umbral_avg()
-        // this.doActionSetup_umbral_max()
         
         this.doActionSetup_scrollbarY()
+
+        // Nuevo, para actualizar ante cambio de umbrales en el compoente de Umbrales
+        this.doUpdate_Umbrales()
 
         // WIP
         this.doActionSetup_serie_tipo_area()
@@ -189,7 +189,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         this.chartConfig = obj
 
-        this.doCreate_Umbrales()
+        // this.doCreate_UmbralesX3()
+        // this.doUpdate_Umbrales()
 
         // SETEAR UMBRALES & OUTLIER_PARAM ...
         this.UMBRALES = this.glaciarStorage.getUmbrales(Global.getQuality(this.param_id), this.chartConfig.awq_estandar)
@@ -285,11 +286,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
                             this.dateFilter, ch4.getTypeDataResponse(this.setup), customParam)
       .subscribe((ndata: any) => {
 
-        // this.setNewData(ndata)
-
         console.info(`GET getBackendDataByType : ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter, this.dateRange))
-
-        // console.debug('RTA getBackendDataByType : ' + JSON.stringify(ndata))
 
         console.table(ndata[0])
 
@@ -297,8 +294,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
         /// -------------------
 
         this.zone.runOutsideAngular(() => {
-          // this.chart = this.demoAmChart4(SETUP3, ndata)
-          // this.chart = this.demoAmChart4(SETUP4, ndata)
           this.chart = this.demoAmChart4(this.setup, ndata)
         })
 
@@ -566,49 +561,20 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
           console.debug(`value max ${this.valueAxis.max}`)
 
-          console.log('UMNRAL DEBUG')
           let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
-    
-          this.myMax.default_max = valueAxis.max
-          this.myMax.default_min = valueAxis.min
-          this.myMax.step        = valueAxis.step 
-          this.myMax.value = chx.getMaximoValor(this, valueAxis.max)
-    
-          console.debug(`myMax :: ${JSON.stringify(this.myMax)}`)
 
-          if (this.chartConfig.umbral_min) {
-              this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${chx.round2d(UMBRAL.min)}`) 
-          }
+          this.myMax.default_max = this.valueAxis.max
+          this.myMax.default_min = this.valueAxis.min
+          this.myMax.step        = this.valueAxis.step 
+          this.myMax.value       = chx.getMaximoValor(this, this.valueAxis.max)
 
-          if (this.chartConfig.umbral_avg) {
-              this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${chx.round2d(UMBRAL.avg)}`) 
-          }
-
-          if (this.chartConfig.umbral_max) {
-              this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
-              Max ${chx.round2d(UMBRAL.max)}`) 
-          }
+          this.doCreate_UmbralesX3()
 
           this.isDrawing = false
 
       }, this)
 
 
-
-      // Del archivo es...
-      // _date_millisecond: "mm:ss SSS",
-      // _date_second: "HH:mm:ss",
-      // _date_minute: "HH:mm",
-
-      // _date_hour: "HH:mm (dd)",          // OK
-      // _date_day: "dd MMM",               // WIP
-
-
-      // _date_week: "ww",
-      // _date_month: "MMM",
-      // _date_year: "yyyy",
-
-      // // dateAxis.dateFormat
       dateAxis.periodChangeDateFormats.setKey('minute', '[bold]HH:mm')
       dateAxis.periodChangeDateFormats.setKey('hour',   '[bold]HH:mm (dd)')
       dateAxis.periodChangeDateFormats.setKey('day',    '[bold]dd MMM')
@@ -733,6 +699,14 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     Max ${chx.round2d(this.axisRange_max.value)}`    
   }
 
+  click_Button_POPUP(opcion, $event?) {
+    if ($event !== undefined) $event.preventDefault()
+    let title = (opcion === chx.MAX) ? 'Umbral Max'
+              : (opcion === chx.AVG) ? 'Umbral AVG'
+              : (opcion === chx.MIN) ? 'Umbral MIN' : 'wip'
+    this.chart.openModal(title, "Value") 
+  }
+  
 
   doResize_HIGH(opcion, $event?) {
     if ($event !== undefined) $event.preventDefault()
@@ -809,8 +783,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         axisRange.visible = false
 
-        // axisRange.
-
         if (op === chx.MIN) this.axisRange_min = axisRange
         if (op === chx.AVG) this.axisRange_avg = axisRange
         if (op === chx.MAX) this.axisRange_max = axisRange
@@ -819,21 +791,44 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     }
   }
 
-  doCreate_Umbrales = () => {
+  doCreate_UmbralesX3 = () => {
 
-    console.log(`doActionUpdate_umbrales()`)
+    let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
+
+
+    console.debug(`myMax :: ${JSON.stringify(this.myMax)}`)
+
+    if (this.chartConfig.umbral_min) {
+        this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${chx.round2d(UMBRAL.min)}`) 
+    }
+
+    if (this.chartConfig.umbral_avg) {
+        this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${chx.round2d(UMBRAL.avg)}`) 
+    }
+
+    if (this.chartConfig.umbral_max) {
+        this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
+        Max ${chx.round2d(UMBRAL.max)}`) 
+    }
+  }
+
+  /**
+   * TODO: ¿Deberia ponerle un if de config?
+   */
+  doUpdate_Umbrales = () => {
+
+    console.log(`doUpdate_Umbrales(myMax :: ${JSON.stringify(this.myMax)})`)
 
     let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
 
     this.axisRange_min.value =  UMBRAL.min
     this.axisRange_avg.value =  UMBRAL.avg
     this.axisRange_max.value =  UMBRAL.max
-
-    this.axisRange_min.show()
-    this.axisRange_avg.show()
-    this.axisRange_max.show()
-
-
+    
+    this.axisRange_min.text  = `Min ${chx.round2d(UMBRAL.min)}`
+    this.axisRange_avg.text  = `Avg ${chx.round2d(UMBRAL.avg)}`
+    this.axisRange_max.text  = `${this.param_id}
+    Max ${chx.round2d(UMBRAL.max)}`
 
   }
 
