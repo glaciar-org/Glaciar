@@ -453,27 +453,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
         }
       }
 
-          
-      let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
-
-      this.myMax.default_max = valueAxis.max
-      this.myMax.default_min = valueAxis.min
-      this.myMax.value = chx.getMaximoValorActivo(this)
-      this.myMax.step  = chx.round2d((this.myMax.value / 10))
-
-      if (this.chartConfig.umbral_min) {
-          this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${UMBRAL.min}`) 
-      }
-
-      if (this.chartConfig.umbral_avg) {
-          this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${UMBRAL.avg}`) 
-      }
-
-      if (this.chartConfig.umbral_max) {
-          this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
-          Max ${UMBRAL.max}`) 
-      }
-
       // --> Sospecha de Antiperformante:
       dateAxis.renderer.labels.template.adapter.add('rotation', function (rotation, target) {
           const dataItem = target.dataItem
@@ -497,103 +476,106 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       
       // this.series = new Array()
 
-      let pserie; 
-
       for (let i = 0; i < ndata.series.length; i++) {
 
           const datasetId = ndata.series[i]
           const serie = this.addSerieToChart_SETUP5(chart, i, ndata)
         
-          if (i === ndata.series.length) {
-              pserie = serie
+          if (i === 0) {
+
+              if (this.chartConfig.scrollbarX) {
+
+                  const posicion = (this.chartConfig.scrollbarY_abajo) ? chart.bottomAxesContainer : chart.topAxesContainer
+
+                  let riskyCode = this.chartConfig.scrollbarY_preview
+
+                  riskyCode = false
+
+                  if (riskyCode) {
+                      const scrollbarX = new am4charts.XYChartScrollbar()
+                      scrollbarX.series.push(serie)
+
+                      // ------------------------------------------------------------
+                      // scrollbarX.scrollbarChart::
+                      //    It can be configured just like any other XYChart.
+                      // scrollbarX.scrollbarChart.seriesContainer.hide()  // No dibuja a la serie
+                      scrollbarX.scrollbarChart.fontSize = 8
+                      // ------------------------------------------------------------
+
+                      chart.scrollbarX = scrollbarX
+                      chart.scrollbarX.parent = posicion
+                      chart.scrollbarX.thumb.minWidth = 50
+                  } else {
+                      chart.scrollbarX = new am4core.Scrollbar()
+                      chart.scrollbarX.parent = posicion
+                  }
+              }
+
+              if (this.chartConfig.scrollbarY) {
+                  this.scrollbarY = new am4core.Scrollbar()
+                  chart.scrollbarY = this.scrollbarY
+                  chart.scrollbarY.thumb.minHeight = 50
+                  // chart.scrollbarY.__disabled = false
+              }
+      
+              if (this.chartConfig.cursor) {
+                  // Make a panning cursor
+                  this.cursor = new am4charts.XYCursor()
+                  chart.cursor = this.cursor
+                  chart.cursor.snapToSeries = serie
+                  chart.cursor.xAxis = dateAxis
+                  this.doActionSetup_cursor()
+                  if (this.chartConfig.zoom) {
+                      chart.cursor.behavior = this.chartConfig.zoom_tipo
+                  }
+              }
+
           }
       }
 
 
 
-      if (this.chartConfig.scrollbarX) {
-
-          const posicion = (this.chartConfig.scrollbarY_abajo) ? chart.bottomAxesContainer : chart.topAxesContainer
-
-          // let scrollbarX = new am4charts.XYChartScrollbar();
-  // scrollbarX.series.push(series);
-  // chart.scrollbarX = scrollbarX;
-          // if (this.chartConfig.scrollbarY_preview) {
-          //     const scrollbarX = new am4charts.XYChartScrollbar()
-          //     scrollbarX.series.push(pserie)
-
-          //     // ------------------------------------------------------------
-          //     // scrollbarX.scrollbarChart::
-          //     //    It can be configured just like any other XYChart.
-          //     // scrollbarX.scrollbarChart.seriesContainer.hide()  // No dibuja a la serie
-          //     scrollbarX.scrollbarChart.fontSize = 8
-          //     // ------------------------------------------------------------
-
-          //     chart.scrollbarX = scrollbarX
-          //     chart.scrollbarX.parent = posicion
-          //     chart.scrollbarX.thumb.minWidth = 50
-          // } else {
-          //     chart.scrollbarX = new am4core.Scrollbar()
-          //     chart.scrollbarX.parent = posicion
-          // }
-
-          chart.scrollbarX = new am4core.Scrollbar()
-          chart.scrollbarX.parent = posicion
+ 
 
 
-
-          console.log('que pasa')
-        }
-
-
-
-        if (this.chartConfig.scrollbarY) {
-          this.scrollbarY = new am4core.Scrollbar()
-          chart.scrollbarY = this.scrollbarY
-          chart.scrollbarY.thumb.minHeight = 50
-          // chart.scrollbarY.__disabled = false
-        }
-
-
-        if (this.chartConfig.cursor) {
-          // Make a panning cursor
-          this.cursor = new am4charts.XYCursor()
-          chart.cursor = this.cursor
-          chart.cursor.snapToSeries = pserie
-          chart.cursor.xAxis = dateAxis
-          this.doActionSetup_cursor()
-          if (this.chartConfig.zoom) {
-              chart.cursor.behavior = this.chartConfig.zoom_tipo
-          }
-
-
-
-          let scrollbarX = new am4charts.XYChartScrollbar();
-          scrollbarX.series.push(pserie);
-          chart.scrollbarX = scrollbarX;
-
-      }
-  
 
       chart.legend = new am4charts.Legend()
       chart.legend.fontSize = 12
 
-
-
       chart.events.on('ready', function () {
 
+        console.debug('chart is ready!')
+
           // const OOPPCCIONN = chx.OPCION_HH
-
           // console.debug('!ready(' + OOPPCCIONN + ') Start!')
-
           // const rango  = chx.rangeToDate(OOPPCCIONN)
-
           // console.debug('!ready(' + OOPPCCIONN + ') [desde=' + this.mff1(rango.dDesde) + ', hasta=' + this.mff1(rango.dHasta) + '] ')
-
           // chx.zoomToDates(OOPPCCIONN, rango.dDesde, rango.dHasta)
 
+          console.debug(`value max ${this.valueAxis.max}`)
 
-      })
+          console.log('UMNRAL DEBUG')
+          let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
+    
+          this.myMax.default_max = valueAxis.max
+          this.myMax.default_min = valueAxis.min
+          this.myMax.value = chx.getMaximoValorActivo(this, valueAxis.max)
+          this.myMax.step  = chx.round2d((this.myMax.value / 10))
+    
+          if (this.chartConfig.umbral_min) {
+              this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${UMBRAL.min}`) 
+          }
+    
+          if (this.chartConfig.umbral_avg) {
+              this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${UMBRAL.avg}`) 
+          }
+    
+          if (this.chartConfig.umbral_max) {
+              this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
+              Max ${UMBRAL.max}`) 
+          }
+
+      }, this)
 
 
 
@@ -704,22 +686,36 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   // --[ Botoneraa ]-------------  
+  click_Button_BARS($event) {
+    $event.preventDefault()
+    this.axisRange_min.show()
+    this.axisRange_avg.show()
+    this.axisRange_max.show()
+  }
+
+  click_Button_NOT_BARS($event) {
+    $event.preventDefault()
+    this.axisRange_min.visible = false
+    this.axisRange_avg.visible = false
+    this.axisRange_max.visible = false
+  }
+
   click_Button_UP_MAX($event) {
-    $event.preventDefault();
+    $event.preventDefault()
     this.myMax.value    = chx.round2d(this.myMax.value + this.myMax.step)
     this.valueAxis.max  = chx.round2d(this.myMax.value)
     console.debug(`click_Button_#UP_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
   }
 
   click_Button_DW_MAX($event) {
-    $event.preventDefault();
+    $event.preventDefault()
     this.myMax.value    = chx.round2d(this.myMax.value - this.myMax.step)
     this.valueAxis.max  = this.myMax.value
     console.debug(`click_Button_#DW_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
   }
 
   click_Button_RESET($event){
-    $event.preventDefault();
+    $event.preventDefault()
     console.debug(`click_Button_#RESET[ myMax=${JSON.stringify(this.myMax)} ]`)
     this.valueAxis.max = this.myMax.default_max
     this.valueAxis.min = this.myMax.default_min
@@ -738,7 +734,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
   doDownload($event) {
 
-    $event.preventDefault();
+    $event.preventDefault()
     console.debug('doDownload()')
     this.dataService
         .getBackendDataAsBlob(this.dataset_id, this.quality_id, this.param_id, this.dateFilter)

@@ -180,8 +180,8 @@ export function isTDD_mode(): boolean {
 export function getValue(key: string): string {
 
     if (key === HOST_BACKEND.UPSALA) {
-        if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHIP }
-        // if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHOST }
+        // if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHIP }
+        if (isHost_Local()) { return HOST_BACKEND.UPSALA_LOCALHOST }
         // if (isHost_Dev())   { return HOST_BACKEND.UPSALA_DEVELOP }
         // if (isHost_Prod())  { return HOST_BACKEND.UPSALA_MASTER }
         if (isHost_Dev())   { return HOST_BACKEND.UPSALA_ORG_DEVELOP }
