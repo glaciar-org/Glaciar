@@ -61,6 +61,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
   subObjects: Subscription
   chartConfig: ChartConfig.Options
 
+  isDrawing: boolean = false
+
   setup: string
 
   private chart:       am4charts.XYChart
@@ -243,6 +245,12 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
     console.debug(`Amcharts4Component::loadTheData_And_DrawAmChart4(src=${src}) context = ` + chx.getContext(this.dataset_id, this.quality_id, this.param_id, this.dateFilter, this.dateRange))
 
+    if (this.isDrawing) {   // Para que no pase dos veces por aca.
+        return
+    }
+
+    this.isDrawing = true
+
     const AWQ = (this.quality_id === Global.QUALITY_TAB.AIRQ) ? ST.AWQ.REF_BIB_AIRQ : ST.AWQ.REF_BIB
 
     this.OUTLIER_PARAM = this.getOutlierParam(this.param_id)
@@ -363,6 +371,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
    * Esta demo tiene escala Hora Minutos
    */
   demoAmChart4(setup: string, ndata: any) {
+
     console.debug(`Amcharts4Component::demoAmChart4(${setup})`)
 
     const chart = am4core.create('chartdiv', am4charts.XYChart)
@@ -559,9 +568,11 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     
           this.myMax.default_max = valueAxis.max
           this.myMax.default_min = valueAxis.min
+          this.myMax.step        = valueAxis.step 
           this.myMax.value = chx.getMaximoValorActivo(this, valueAxis.max)
-          this.myMax.step  = chx.round2d((this.myMax.value / 10))
     
+          console.debug(`myMax :: ${JSON.stringify(this.myMax)}`)
+
           if (this.chartConfig.umbral_min) {
               this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${UMBRAL.min}`) 
           }
@@ -574,6 +585,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
               this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
               Max ${UMBRAL.max}`) 
           }
+
+          this.isDrawing = false
 
       }, this)
 
@@ -685,7 +698,12 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     console.debug(`click_Zoom_Out Fin`)
   }
 
-  // --[ Botoneraa ]-------------  
+  // --[ Botoneraa ]-------------
+
+  /**
+   * Muestra la barras. 
+   * Pero debería también mostrar la altura.
+   */
   click_Button_BARS($event) {
     $event.preventDefault()
     this.axisRange_min.show()
@@ -700,20 +718,33 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     this.axisRange_max.visible = false
   }
 
+  /**
+   * Sube la altura de a un step.
+   * Pero si el gráfico está visible, debería mostrarlo
+   */
   click_Button_UP_MAX($event) {
     $event.preventDefault()
-    this.myMax.value    = chx.round2d(this.myMax.value + this.myMax.step)
-    this.valueAxis.max  = chx.round2d(this.myMax.value)
-    console.debug(`click_Button_#UP_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
+    this.myMax.value    = this.myMax.value + this.myMax.step
+    this.valueAxis.max  = this.myMax.value
+    this.myMax.step     = this.valueAxis.step 
+    console.debug(`click_Button_#UP_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max}, valueAxis.step=${this.valueAxis.step} ]`)
   }
 
+  /**
+   * Baja la altura de a un "step"
+   */
   click_Button_DW_MAX($event) {
     $event.preventDefault()
-    this.myMax.value    = chx.round2d(this.myMax.value - this.myMax.step)
+    this.myMax.value    = this.myMax.value - this.myMax.step
     this.valueAxis.max  = this.myMax.value
-    console.debug(`click_Button_#DW_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max} ]`)
+    this.myMax.step     = this.valueAxis.step
+    console.debug(`click_Button_#DW_MAX[ myMax=${JSON.stringify(this.myMax)}, valueAxis.max=${this.valueAxis.max}, valueAxis.step=${this.valueAxis.step} ]`)
   }
 
+  /**
+   * Elimina los umbrales si existen. (?)
+   * La altura al componente orginal
+   */
   click_Button_RESET($event){
     $event.preventDefault()
     console.debug(`click_Button_#RESET[ myMax=${JSON.stringify(this.myMax)} ]`)
