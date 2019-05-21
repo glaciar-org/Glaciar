@@ -170,9 +170,10 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         // OK!
         this.doActionSetup_labelY()
-        this.doActionSetup_umbral_min()
-        this.doActionSetup_umbral_avg()
-        this.doActionSetup_umbral_max()
+        // this.doActionSetup_umbral_min()
+        // this.doActionSetup_umbral_avg()
+        // this.doActionSetup_umbral_max()
+        
         this.doActionSetup_scrollbarY()
 
         // WIP
@@ -187,6 +188,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
         console.debug(`Amcharts4Component:[<<--Friccion]:subscribe() obj ::  ${JSON.stringify(obj)}`)
 
         this.chartConfig = obj
+
+        this.doCreate_Umbrales()
 
         // SETEAR UMBRALES & OUTLIER_PARAM ...
         this.UMBRALES = this.glaciarStorage.getUmbrales(Global.getQuality(this.param_id), this.chartConfig.awq_estandar)
@@ -574,16 +577,16 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
           console.debug(`myMax :: ${JSON.stringify(this.myMax)}`)
 
           if (this.chartConfig.umbral_min) {
-              this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${UMBRAL.min}`) 
+              this.doCreate_UmbralLine(chx.MIN, UMBRAL.min, `Min ${chx.round2d(UMBRAL.min)}`) 
           }
-    
+
           if (this.chartConfig.umbral_avg) {
-              this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${UMBRAL.avg}`) 
+              this.doCreate_UmbralLine(chx.AVG, UMBRAL.avg, `Avg ${chx.round2d(UMBRAL.avg)}`) 
           }
-    
+
           if (this.chartConfig.umbral_max) {
               this.doCreate_UmbralLine(chx.MAX, UMBRAL.max, `${this.param_id}
-              Max ${UMBRAL.max}`) 
+              Max ${chx.round2d(UMBRAL.max)}`) 
           }
 
           this.isDrawing = false
@@ -813,6 +816,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
         axisRange.visible = false
 
+        // axisRange.
+
         if (op === chx.MIN) this.axisRange_min = axisRange
         if (op === chx.AVG) this.axisRange_avg = axisRange
         if (op === chx.MAX) this.axisRange_max = axisRange
@@ -821,55 +826,34 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     }
   }
 
-  doActionSetup_umbralRange = (op: string, UMBRAL_VALUE, text)=> {
+  doCreate_Umbrales = () => {
+
+    console.log(`doActionUpdate_umbrales()`)
+
+    let UMBRAL = this.glaciarStorage.getUmbral(this.param_id, this.chartConfig.awq_estandar)
+
+    this.axisRange_min.value =  UMBRAL.min
+    this.axisRange_avg.value =  UMBRAL.avg
+    this.axisRange_max.value =  UMBRAL.max
+
+    this.axisRange_min.show()
+    this.axisRange_avg.show()
+    this.axisRange_max.show()
+
+
+
+  }
+
+  click_Button_TEST($event, opcion) {
+    $event.preventDefault()
+    let k = (opcion === 'UP') ? 1.1 : 0.9
+    this.axisRange_max.value = this.axisRange_max.value * k
+    this.axisRange_max.text  = `${this.param_id}
+    Max ${chx.round2d(this.axisRange_max.value)}`
+
     
-    if (this.hayUmbral(UMBRAL_VALUE)) {
-      
-        const axisRange = this.valueAxis.axisRanges.create()
-        axisRange.value = UMBRAL_VALUE
-        axisRange.grid.stroke = am4core.color('#396478')
-        axisRange.grid.strokeWidth = 2
-        axisRange.grid.strokeOpacity = 1
-
-        axisRange.label.inside = true
-        axisRange.label.text = text
-        axisRange.label.fill = axisRange.grid.stroke
-        axisRange.label.verticalCenter = 'bottom'
-
-        if (op === 'MIN') this.axisRange_min = axisRange
-        if (op === 'AVG') this.axisRange_avg = axisRange
-        if (op === 'MAX') this.axisRange_max = axisRange
-
-    }
   }
 
-  doActionSetup_umbral_min = () => {
-    if (this.axisRange_min != undefined) {
-        this.axisRange_min.visible = false
-        if (this.chartConfig.umbrals_on && this.chartConfig.umbral_min) { 
-            this.axisRange_min.show()
-        }
-    }
-  }
-
-  doActionSetup_umbral_avg = () => {
-    if (this.axisRange_avg != undefined) {
-        this.axisRange_avg.visible = false
-        if (this.chartConfig.umbrals_on && this.chartConfig.umbral_avg) { 
-            this.axisRange_avg.show()
-        }
-    }
-  }
-
-  doActionSetup_umbral_max = () => {
-    if (this.axisRange_max != undefined) {
-        this.axisRange_max.visible = false
-        if (this.chartConfig.umbrals_on && this.chartConfig.umbral_max) { 
-            this.axisRange_max.show()
-        }
-    }
-  }
-  
 
   doActionSetup_labelY = () => {
     if (this.chartConfig.labelY) {
