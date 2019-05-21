@@ -13,26 +13,24 @@ export function round2d(n) {
 } 
 
 /**
- * 
- * @param self TODO: Pasar el valueAxis.max
+ * Retorna el valor mas grande entre máximos y umbrales
  */
-export function getMaximoValorActivo(self, max: number): number {
-
-    let upp = (maxValue) => {
-        console.debug(`getMaximoValorActivo() = ${maxValue} `)
-        return maxValue * 1.15
-    }
-
-    let maxValorActivo = max
+export function getMaximoValor(self, max: number): number {
 
     let UMBRAL = self.glaciarStorage.getUmbral(self.param_id, self.chartConfig.awq_estandar)
-    
-    if (!self.chartConfig.umbrals_on) return upp(maxValorActivo)
-    if ( self.chartConfig.umbral_max) return upp(UMBRAL.max)
-    if ( self.chartConfig.umbral_avg) return upp(UMBRAL.avg)
-    if ( self.chartConfig.umbral_min) return upp(UMBRAL.min)
 
-    return upp(maxValorActivo)
+    if (!self.chartConfig.umbral_max) UMBRAL.max = 0
+    if (!self.chartConfig.umbral_avg) UMBRAL.avg = 0
+    if (!self.chartConfig.umbral_min) UMBRAL.min = 0
+
+    let maxValorActivo = Math.max(max, UMBRAL.max, UMBRAL.avg, UMBRAL.min)
+
+    let K = 1.15
+    if (UMBRAL.max * K > maxValorActivo) {
+        maxValorActivo = maxValorActivo * K
+    }
+
+    return  maxValorActivo
 }
 
 export function getContext(dataset_id: Global.DS,

@@ -569,7 +569,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
           this.myMax.default_max = valueAxis.max
           this.myMax.default_min = valueAxis.min
           this.myMax.step        = valueAxis.step 
-          this.myMax.value = chx.getMaximoValorActivo(this, valueAxis.max)
+          this.myMax.value = chx.getMaximoValor(this, valueAxis.max)
     
           console.debug(`myMax :: ${JSON.stringify(this.myMax)}`)
 
@@ -701,11 +701,14 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
   // --[ Botoneraa ]-------------
 
   /**
-   * Muestra la barras. 
-   * Pero debería también mostrar la altura.
+   * Muestra TODAS! las barras
+   * => debería ajusta la altua
    */
   click_Button_BARS($event) {
     $event.preventDefault()
+    this.myMax.value   = chx.getMaximoValor(this, this.valueAxis.max)
+    this.valueAxis.max = this.myMax.value 
+    this.myMax.step    = this.valueAxis.step
     this.axisRange_min.show()
     this.axisRange_avg.show()
     this.axisRange_max.show()
@@ -750,6 +753,9 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     console.debug(`click_Button_#RESET[ myMax=${JSON.stringify(this.myMax)} ]`)
     this.valueAxis.max = this.myMax.default_max
     this.valueAxis.min = this.myMax.default_min
+    this.axisRange_min.visible = false
+    this.axisRange_avg.visible = false
+    this.axisRange_max.visible = false
   }
 
   // --[ Botonera ]-------------
