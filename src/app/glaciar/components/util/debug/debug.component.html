@@ -24,6 +24,15 @@
           <div id="collapseUmbrales">
             <div class="row">
                 <span class="col">  
+
+                    <span class="ww" *ngIf="fatherName === 'amChart4.component'"> 
+                        ... contenido de amChart4.component ...  <br><br>
+
+                        <pre>chartConfig.outliers_action = {{ chartConfig.outliers_action | json }}</pre>
+                        <pre>chartConfig.outliers[2]     = {{ chartConfig.outliers[2] | json }}</pre>
+                                    
+                  </span>
+
                   <span class="ww" *ngIf="fatherName === 'amChart4_LabMode'"> 
                                          ... contenido de amChart4_LabMode ...  <br><br>
 
