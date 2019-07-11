@@ -86,13 +86,26 @@ export const GlaciaR_Viedma__RUNTIME         = 'GlaciaR_Viedma__RUNTIME'
 export const GlaciaR_Viedma__RUNTIME_MASTER  = 'HEROKU [MASTER]'
 export const GlaciaR_Viedma__RUNTIME_DEVELOP = 'HEROKU [DEVELOP]'
 
+// https://data.buenosaires.gob.ar/dataset/calidad-aire/archivo/29.5
+// X (longitude)	    Y (latitude)	    NOMBRE
+// -58.3663735070165	-34.6252584813295	LA BOCA
+// -58.4320717652753	-34.6066080998154	CENTENARIO
+// -58.391552893462	    -34.5995643433432	CORDOBA
+// -58.4053598727298	-34.5834529467442	PALERMO
+
+export const DS01_ESTACIONES = [
+    { name: 'La Boca',     latitude:  -34.6252584813295,   longitude: -58.3663735070165 },
+    { name: 'Centenario',  latitude:  -34.6066080998154,   longitude: -58.4320717652753 },
+    { name: 'Cordoba',     latitude:  -34.5995643433432,   longitude: -58.391552893462  },
+    { name: 'Palermo',     latitude:  -34.5834529467442,   longitude: -58.4053598727298 },
+]
 
 export const PAISES_EMISORES_CO2 = [
-    // { name: 'Alemania',  latitude:   52.520008,   longitude:  13.404954  },
-    { name: 'Brasil',    latitude:  -23.5475006,  longitude: -46.6361084 },
-    { name: 'Bolivia',   latitude:  -16.5000000,  longitude: -68.1500000 },
-    { name: 'Chile',     latitude:  -35.675148,   longitude: -71.5429688 },
-    { name: 'Argentina', latitude:  -31.4135000,  longitude: -64.1810500 },
+    { name: 'Alemania',     latitude:   52.520008,         longitude:  13.404954  },
+    { name: 'Brasil',       latitude:  -23.5475006,        longitude: -46.6361084 },
+    { name: 'Bolivia',      latitude:  -16.5000000,        longitude: -68.1500000 },
+    { name: 'Chile',        latitude:  -35.675148,         longitude: -71.5429688 },
+    { name: 'Argentina',    latitude:  -31.4135000,        longitude: -64.1810500 },
 ]
 // Berlin, Germany    --> Latitude and longitude  52.520008, 13.404954.
 // São Paulo, Brasil  -->  latitud -23.5475006 y longitud -46.6361084
@@ -100,7 +113,6 @@ export const PAISES_EMISORES_CO2 = [
 // Chile              -->  la latitud -35.675148 y longitud -71.5429688
 // Argentina          -->  latitud -38.4160957 y longitud -63.6166725.
 // Córdoba            -->  Latitud: -31.4135000 Longitud: -64.1810500 
-
 
 export enum GlaciaR_CHARTLIB  {
     CHARTJS       = 'CHARTJS',
@@ -245,10 +257,11 @@ export function  getLabelUnits(param: VAR, s?: boolean): string {
     if (param === VAR.NO)  { return (s) ? 'ppb'   : 'Partes por billón (PPB)' }
     if (param === VAR.NO2) { return (s) ? 'ppb'   : 'Partes por billón (PPB)' }
 
-    if (param === VAR.Temp) {  return (s) ? '°C' : 'Grados Celsius (°C)' }
-    if (param === VAR.pH) {    return (s) ? 'pH' : 'pH' }
-    if (param === VAR.OD) {    return (s) ?  '%' : 'Porcentaje de Saturación (%)' }
-    if (param === VAR.Redox) { return (s) ? 'mV' : 'Milivoltios (mV)' }
+    if (param === VAR.Temp) {  return (s) ? '°C'    : 'Grados Celsius (°C)' }
+    if (param === VAR.pH) {    return (s) ? 'pH'    : 'pH' }
+ // if (param === VAR.OD) {    return (s) ?  '%'    : 'Porcentaje de Saturación (%)' }
+    if (param === VAR.OD) {    return (s) ? 'mg/L'  : 'Miligramos por litro' }
+    if (param === VAR.Redox) { return (s) ? 'mV'    : 'Milivoltios (mV)' }
     if (param === VAR.Cond) {  return (s) ? 'uS/cm' : 'Microsiemens por centímetros (uS/cm)' }
 
     return 'Unidades.'
@@ -348,9 +361,18 @@ export function getDatasetHome(dataset_id) {
     return dataset_id
 }
 
+export function isDS01(dataset_id: DS) {
+    return (dataset_id === DS.DS01)
+}
+
 export function isDS05(dataset_id: DS) {
     return (dataset_id === DS.DS05 || dataset_id === DS.DS05a || dataset_id === DS.DS05b)
 }
+
+export function isDS_Multiple(code: string) {
+    return code === DS.DS01 || 
+           code === DS.DS05 
+} 
 
 export function getParamIdDescription(param: string): string {
 
