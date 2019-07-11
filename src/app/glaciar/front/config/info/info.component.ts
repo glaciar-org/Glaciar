@@ -57,13 +57,33 @@ export class InfoComponent implements OnInit {
 
       const marker: DomainModel.Marker = d.location
 
-      marker.name  = d.name
-      marker.label = d.code
-      marker.draggable = false
-      marker.link  = '/#' + Global.getDatasetHome(d.code)
+      if (!Global.isDS_Multiple(d.code)) {
+        marker.name  = d.name
+        marker.label = d.code
+        marker.draggable = false
+        marker.link  = '/#' + Global.getDatasetHome(d.code)
 
-      this.markers.push(marker)
+        this.markers.push(marker)
+      }
     })
+
+    if (Global.isDS01(this.dataset_id)) {
+
+      console.debug(`InfoComponent::isDS01(${this.dataset_id}): `)
+
+      Global.DS01_ESTACIONES.forEach(d => {
+        let markerPaises: DomainModel.Marker = new DomainModel.Marker() 
+
+        markerPaises.latitude = d.latitude
+        markerPaises.longitude = d.longitude
+        markerPaises.name  = 'Estaciones Ambientales BS. AS.'
+        markerPaises.label = Global.DS.DS01
+        markerPaises.draggable = false
+        markerPaises.link  = '/#' + Global.getDatasetHome(Global.DS.DS01)
+
+        this.markers.push(markerPaises)
+      })
+    }
 
     if (Global.isDS05(this.dataset_id)) {
 
