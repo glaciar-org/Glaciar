@@ -4,7 +4,7 @@ services:
 
   glaciar.org-front:
     container_name: glaciar.org-front
-    image: glaciar/glaciar.org-front:1.1
+    image: glaciar/glaciar.org-front:1.2
     ports:
       - '80:80'
     networks:
@@ -49,3 +49,8 @@ networks:
     driver: bridge
   network-back:
     driver: bridge
+
+#
+# Runtime (t needs .env_docker)
+#    docker-compose -f docker-compose-glaciar.org.org up --build
+#    
