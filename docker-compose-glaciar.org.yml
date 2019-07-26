@@ -17,7 +17,7 @@ services:
     volumes:
       - '.env_docker:/app/.env'
     ports:
-      - '5000:5000'
+      - '3000:5000'
     networks:
       - network-front
       - network-back
