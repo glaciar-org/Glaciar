@@ -155,6 +155,15 @@ export function ff3_Date(date: Date): string { return moment.utc(date).format('Y
 
 export function ff1(m: any): string { return moment.utc(m).format('YYYY-MM-DD HH:mm:ss') }
 
+/**
+ * Docker swarm en linuxacademy servers, por ejemplo ... 
+ */
+export function isHost_DockerSwarm(): boolean {
+    return window.location.href.includes('mylabserver.com')
+        || window.location.href.includes('dockers.com')
+        || window.location.href.includes('http://pabloinchausti')
+}
+
 export function isHost_Local(): boolean {
     return window.location.href.includes('http://localhost')
         || window.location.href.includes('http://127.0.0.1')
@@ -198,6 +207,7 @@ export function getValue(key: string): string {
         // if (isHost_Prod())  { return HOST_BACKEND.UPSALA_MASTER }
         if (isHost_Dev())   { return HOST_BACKEND.UPSALA_ORG_DEVELOP }
         if (isHost_Prod())  { return HOST_BACKEND.UPSALA_ORG_MASTER }
+        if (isHost_DockerSwarm()) { return 'http://' + window.location.hostname + ':3000/' }
     }
 
     if (key === GlaciaR_Viedma__CHARTLIB) {
