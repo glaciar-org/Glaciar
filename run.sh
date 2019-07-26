@@ -4,7 +4,9 @@
 # De esta forma puedo acceder desde otra computadora
 # http://192.168.1.144:4305
 
-ng serve --aot --port 4205 --host 0.0.0.0
+# ng serve --aot --port 4205 --host 0.0.0.0
+  ng serve --aot --port 4205 --host 0.0.0.0 --disableHostCheck true
+
 
 
 # Nota: Si quiero habilitar los break point

@@ -44,9 +44,11 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Pablo
-package-lock.json
 
 
 # dotenv environment variables file
 .env
+.env_docker
+
+
+
