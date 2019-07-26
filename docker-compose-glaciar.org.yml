@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
 
-  glaciar.org-front:
+  glaciar-org-front:
     container_name: glaciar.org-front
     image: glaciar/glaciar.org-front:1.2
     ports:
@@ -11,7 +11,7 @@ services:
       - network-front
 
 
-  glaciar.org-back:
+  glaciar-org-back:
     container_name: glaciar.org-back
     image: glaciar/glaciar.org-back:1.1
     volumes:
@@ -46,11 +46,12 @@ volumes:
 
 networks:
   network-front:
-    driver: bridge
+    driver: overlay
   network-back:
-    driver: bridge
+    driver: overlay
+
 
 #
 # Runtime (t needs .env_docker)
-#    docker-compose -f docker-compose-glaciar.org.org up --build
-#    
+#    docker-compose -f docker-compose-glaciar.org.yml up --build
+#    docker-compose -f docker-compose-glaciar.org.yml down --volumes
