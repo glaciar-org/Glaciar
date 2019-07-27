@@ -9,13 +9,17 @@ services:
       - '80:80'
     networks:
       - network-front
+    secrets:
+      - source: env_docker_file
+        target: /app/.env
+        mode: 0400 
 
 
   glaciar-org-back:
     container_name: glaciar.org-back
     image: glaciar/glaciar.org-back:1.1
-    volumes:
-      - '.env_docker:/app/.env'
+    # volumes:
+    #   - '.env_docker:/app/.env'
     ports:
       - '3000:5000'
     networks:
@@ -23,7 +27,8 @@ services:
       - network-back
     depends_on:
       - glaciar-mongo
-
+    secrets:
+      - env_docker_file
 
 
   glaciar-mongo:
@@ -44,7 +49,14 @@ volumes:
   mongodb:
   mongoconfig:
 
+
+secrets:
+  env_docker_file:
+    - file: .env_docker
+
 networks:
+  default:
+    driver: overlay
   network-front:
     driver: overlay
   network-back:
