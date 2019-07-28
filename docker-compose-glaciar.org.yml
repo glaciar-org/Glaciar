@@ -3,60 +3,66 @@ version: '3.3'
 services:
 
   glaciar-org-front:
-    container_name: glaciar.org-front
+    container_name: glaciar-org-front
     image: glaciar/glaciar.org-front:1.2
     ports:
       - '80:80'
     networks:
       - network-front
-    secrets:
-      - source: env_docker_file
-        target: /app/.env
-        mode: 0400 
 
 
   glaciar-org-back:
-    container_name: glaciar.org-back
+    container_name: glaciar-org-back
     image: glaciar/glaciar.org-back:1.1
-    # volumes:
-    #   - '.env_docker:/app/.env'
+#    volumes:
+#     - '.env_docker:/app/.env'
     ports:
       - '3000:5000'
     networks:
       - network-front
       - network-back
     depends_on:
-      - glaciar-mongo
+      - glaciar-org-mongo
+    configs:
+      - source: glaciar_config
+        target: /app/glaciar_config.json
+      - glaciar_config_key
     secrets:
-      - env_docker_file
+      - source: env_docker_file
+        target: /app/.env
+        mode: 0400
 
 
-  glaciar-mongo:
+  glaciar-org-mongo:
     image: mongo:4.0
-    container_name: glaciar-mongo
+    container_name: glaciar-org-mongo
     volumes:
       # named volumes
       - mongodb:/data/db
       - mongoconfig:/data/configdb
     ports:
-      - "27018:27017"
+      - "2222:27017"
     networks:
       - network-back
 
+
+configs:
+  glaciar_config:
+    file: ./glaciar_config.json
+  glaciar_config_key:
+    external: true
+
+
+secrets:
+  env_docker_file:
+    file: .env_docker_swarm
 
 volumes:
   # default dir on Ubuntu: /var/lib/docker/volumes
   mongodb:
   mongoconfig:
 
-
-secrets:
-  env_docker_file:
-    - file: .env_docker
-
 networks:
-  default:
-    driver: overlay
   network-front:
     driver: overlay
   network-back:
@@ -64,6 +70,10 @@ networks:
 
 
 #
+# GlaciaR_Viedma_backend__MONGODB_MLAB_HOST=glaciar_glaciar-org-mongo:27017
+#
 # Runtime (t needs .env_docker)
 #    docker-compose -f docker-compose-glaciar.org.yml up --build
 #    docker-compose -f docker-compose-glaciar.org.yml down --volumes
+#    docker stack deploy --compose-file docker-compose-glaciar.org.yml glaciar
+#
