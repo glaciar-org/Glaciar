@@ -82,8 +82,7 @@ networks:
   network-back:
     driver: overlay
 
-
-#
+# ------------------------------------------------------------------------------------
 # GlaciaR_Viedma_backend__MONGODB_MLAB_HOST=glaciar_glaciar-org-mongo:27017
 #
 # Runtime (t needs .env_docker)
@@ -91,3 +90,12 @@ networks:
 #    docker-compose -f docker-compose-glaciar.org.yml down --volumes
 #    docker stack deploy --compose-file docker-compose-glaciar.org.yml glaciar
 #
+# Resultado:
+#    - glaciar-front    en:   http://server:80
+#    - glaciar-back     en:   http://server:3000
+#    - glaciar-mongodb  en:   mongo://server:2222
+#    - glaciar-etl      con
+#        docker run -it --rm  --name glaciar_etl --env-file ./.env  \
+#               glaciar/glaciar.org-etl:1.2  ./dispatch.sh ETL1
+#
+# ------------------------------------------------------------------------------------
