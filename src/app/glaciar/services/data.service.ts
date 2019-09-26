@@ -58,7 +58,7 @@ export class DataService {
           serie_connect: false,
 
           time_unit_fixed: false,
-          time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
+          time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
 
           awq_estandar: this.getAWQ_estandar_Default(quality),
           // awq_estandar: (quality === Global.QUALITY_TAB.AIRQ) ? ST.AWQ.REF_BIB_AIRQ : ST.AWQ.REF_BIB,
@@ -99,7 +99,7 @@ export class DataService {
       serie_connect: false,
 
       time_unit_fixed: false,
-      time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
 
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
@@ -139,7 +139,7 @@ export class DataService {
       serie_connect: false,
 
       time_unit_fixed: false,
-      time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
 
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
