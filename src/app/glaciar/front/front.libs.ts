@@ -45,6 +45,10 @@ export function copyForm2ChartConfig(formConfig: FormGroup, chartConfig: ChartCo
     copy(formConfig, chartConfig, 'serie_tipo_area')
     copy(formConfig, chartConfig, 'serie_tooltip')
     copy(formConfig, chartConfig, 'serie_connect')
+
+    copy(formConfig, chartConfig, 'time_unit_fixed')
+    copy(formConfig, chartConfig, 'time_unit_scale')
+
     copy(formConfig, chartConfig, 'awq_estandar')
     copy(formConfig, chartConfig, 'nil_action')
 

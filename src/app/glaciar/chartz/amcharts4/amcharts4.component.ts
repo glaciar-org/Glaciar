@@ -575,6 +575,7 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       }, this)
 
 
+
       dateAxis.periodChangeDateFormats.setKey('minute', '[bold]HH:mm')
       dateAxis.periodChangeDateFormats.setKey('hour',   '[bold]HH:mm (dd)')
       dateAxis.periodChangeDateFormats.setKey('day',    '[bold]dd MMM')
@@ -585,27 +586,33 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       // Define default intervals
       dateAxis.gridIntervals.clear()
 
-      if (Global.isDS05(this.dataset_id)) {
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'year', count: 1 }
-        ])
-      } else if (this.dataset_id === Global.DS.DS04) {
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'month', count: 1 },
-          { timeUnit: 'month', count: 3 },
-          { timeUnit: 'year', count: 1 }
-       ])
-      } else {        
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'minute', count: 15 },
-          { timeUnit: 'hour', count: 1 },
-          { timeUnit: 'day', count: 1 },
-          { timeUnit: 'week', count: 1 },
-          { timeUnit: 'month', count: 1 },
-          { timeUnit: 'month', count: 3 },
-          { timeUnit: 'year', count: 1 }
-       ])
-      }
+      dateAxis.gridIntervals.pushAll([
+        { timeUnit: 'month', count: 1 }
+      ])
+
+      
+
+      // if (Global.isDS05(this.dataset_id)) {
+      //   dateAxis.gridIntervals.pushAll([
+      //     { timeUnit: 'year', count: 1 }
+      //   ])
+      // } else if (this.dataset_id === Global.DS.DS04) {
+      //   dateAxis.gridIntervals.pushAll([
+      //     { timeUnit: 'month', count: 1 },
+      //     { timeUnit: 'month', count: 3 },
+      //     { timeUnit: 'year', count: 1 }
+      //  ])
+      // } else {        
+      //   dateAxis.gridIntervals.pushAll([
+      //     { timeUnit: 'minute', count: 15 },
+      //     { timeUnit: 'hour', count: 1 },
+      //     { timeUnit: 'day', count: 1 },
+      //     { timeUnit: 'week', count: 1 },
+      //     { timeUnit: 'month', count: 1 },
+      //     { timeUnit: 'month', count: 3 },
+      //     { timeUnit: 'year', count: 1 }
+      //  ])
+      // }
 
     }
 

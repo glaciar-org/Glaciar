@@ -258,6 +258,16 @@
                         </div>
                         <!-- [ROW] serie_connect - Fin -->
 
+                        <!-- [ROW] time_unit_fixed - Inicio -->
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch checked
+                                    formControlName="time_unit_fixed"></ui-switch>
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.time_unit_fixed | switchText: 'TimeUnit' }}</label>
+                        </div>
+                        <!-- [ROW] time_unit_fixed - Fin -->
 
                     </nb-accordion-item-body>
                 </nb-accordion-item>
