@@ -57,6 +57,9 @@ export class DataService {
           serie_tooltip: true,
           serie_connect: false,
 
+          time_unit_fixed: false,
+          time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
+
           awq_estandar: this.getAWQ_estandar_Default(quality),
           // awq_estandar: (quality === Global.QUALITY_TAB.AIRQ) ? ST.AWQ.REF_BIB_AIRQ : ST.AWQ.REF_BIB,
 
@@ -95,6 +98,9 @@ export class DataService {
       serie_tooltip: false,
       serie_connect: false,
 
+      time_unit_fixed: false,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
+
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
       nil_action: ChartConfig.NIL_Command.CONSIDER,
@@ -131,6 +137,9 @@ export class DataService {
       serie_tipo_area: false, 
       serie_tooltip: true,
       serie_connect: false,
+
+      time_unit_fixed: false,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.none,
 
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
