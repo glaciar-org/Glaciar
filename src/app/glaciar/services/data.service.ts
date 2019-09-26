@@ -164,7 +164,7 @@ export class DataService {
     }
 
     outliers.map(e => {
-      set(e, Global.VAR.CO,         0,   10)   // [0,   10] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
+      set(e, Global.VAR.CO,         0,   50)   // [0,   50] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
       set(e, Global.VAR.CO2,        0, 2000)   // [0, 2000] https://www.pce-iberica.es/medidor-detalles-tecnicos/definicion-calidad-aire-y-co2.htm
       set(e, Global.VAR.NO,         0,  200)   // REPLICO A NO2 => sin referencias ... 
       set(e, Global.VAR.NO2,        0,  200)   // [0,  200] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
