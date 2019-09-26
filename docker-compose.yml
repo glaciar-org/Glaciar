@@ -1,0 +1,70 @@
+version: '3.3'
+
+services:
+
+  glaciar-org-front:
+    container_name: glaciar-org-front
+    image:  glaciar/glaciar.org-front:1.2
+    ports: 
+      - '80:80'
+    networks:
+      - network-front
+
+  glaciar-org-back:
+    container_name: glaciar-org-back
+    image:  glaciar/glaciar.org-back:1.1
+    ports: 
+      - '5000:5000'
+    networks:
+      - network-front
+      - network-back
+    secrets:
+      - source: env_docker_file
+        target: /app/.env
+        mode: 0400
+    depends_on:
+      - glaciar-org-mongo
+
+  glaciar-org-mongo:
+    container_name: glaciar-org-mongo
+    image: mongo:4.0
+    ports: 
+      - '2222:27017'
+    volumes:
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+    networks:
+      - network-back
+    depends_on:
+      - glaciar-org-mongo-etl
+
+  glaciar-org-mongo-etl:
+    container_name: glaciar-org-etl
+    image:  glaciar/glaciar.org-etl:1.0
+    env_file: ./.env_docker
+    networks:
+      - network-back
+
+secrets:
+  env_docker_file:
+    file: .env_docker
+
+volumes:
+  mongodb:
+  mongoconfig:
+
+networks:
+  network-front:
+    driver: overlay
+  network-back:
+    driver: overlay
+
+
+
+
+
+
+
+
+
+

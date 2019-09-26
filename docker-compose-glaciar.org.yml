@@ -24,7 +24,6 @@ services:
     configs:
       - source: glaciar_config
         target: /app/glaciar_config.json
-      - glaciar_config_key
     secrets:
       - source: env_docker_file
         target: /app/.env
@@ -62,8 +61,6 @@ services:
 configs:
   glaciar_config:
     file: ./glaciar_config.json
-  glaciar_config_key:
-    external: true
 
 
 

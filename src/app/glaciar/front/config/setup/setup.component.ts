@@ -129,6 +129,7 @@ export class SwitchTextPipe implements PipeTransform {
       if (tag === 'Cursor'   ) { return this.txtCursor (bool) }
       if (tag === 'Line'     ) { return this.txtLine   (bool) }
       if (tag === 'Conn'     ) { return this.txtConn   (bool) }
+      if (tag === 'TimeUnit' ) { return this.txtTimeUnit(bool) }
       if (tag === 'ScrollX'  ) { return this.txtScrollX(bool) }
       if (tag === 'ScrollY'  ) { return this.txtScrollY(bool) }
       if (tag === 'LabelY'   ) { return this.txtLabelY (bool) }
@@ -136,10 +137,11 @@ export class SwitchTextPipe implements PipeTransform {
       return 'WIP'
   }
 
-  txtUmbral   = (mostrar : boolean) => (mostrar ) ? 'Mostrar Umbrales:'      : 'No Mostrar Umbrales'
+  txtUmbral   = (mostrar : boolean) => (mostrar ) ? 'Mostrar Umbrales:'     : 'No Mostrar Umbrales'
   txtCursor   = (mostrar : boolean) => (mostrar ) ? 'Cursor ejes X, Y'      : 'Sin Cursor ejes X, Y'
   txtLine     = (area    : boolean) => (area    ) ? 'Linea con área'        : 'Linea sin área'
   txtConn     = (connect : boolean) => (connect ) ? 'Conectar los puntos'   : 'Mostrar Gaps'
+  txtTimeUnit = (fixed   : boolean) => (fixed   ) ? 'Escala de Tiempo Fija' : 'Escala de Tiempo Adaptable'
   txtScrollX  = (mostrar : boolean) => (mostrar ) ? 'Barra de Scroll'       : 'Sin Barra de Scroll'
   txtScrollY  = (mostrar : boolean) => (mostrar ) ? 'Barra de Scroll:'      : 'Sin Barra de Scroll'
   txtLabelY   = (mostrar : boolean) => (mostrar ) ? 'Etiqueta en eje Y'     : 'Sin Etiqueta en eje Y'
