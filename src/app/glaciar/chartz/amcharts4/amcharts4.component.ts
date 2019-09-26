@@ -585,26 +585,57 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       // Define default intervals
       dateAxis.gridIntervals.clear()
 
-      if (Global.isDS05(this.dataset_id)) {
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'year', count: 1 }
+      // Escala fija a una única unidad de timpo
+      console.log(`SCALE this.chartConfig.time_unit_scale = ${this.chartConfig.time_unit_scale}`)
+      console.log(`SCALE this.chartConfig.time_unit_fixed = ${this.chartConfig.time_unit_fixed}`)
+
+      if (this.chartConfig.time_unit_fixed) {
+
+        // default
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'month', count: 1 }])  
+
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.year) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'year', count: 1 }])
+        } else 
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.month) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'month', count: 1 }])
+        } else 
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.week) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'week', count: 1 }])
+        } else 
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.day) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'day', count: 1 }])
+        } else 
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.hour) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'hour', count: 1 }])
+        } else 
+        if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.minute) {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'minute', count: 1 }])
+        }
+
+      } else {
+
+        if (Global.isDS05(this.dataset_id)) {
+          dateAxis.gridIntervals.pushAll([
+            { timeUnit: 'year', count: 1 }
+          ])
+        } else if (this.dataset_id === Global.DS.DS04) {
+          dateAxis.gridIntervals.pushAll([
+            { timeUnit: 'month', count: 1 },
+            { timeUnit: 'month', count: 3 },
+            { timeUnit: 'year', count: 1 }
         ])
-      } else if (this.dataset_id === Global.DS.DS04) {
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'month', count: 1 },
-          { timeUnit: 'month', count: 3 },
-          { timeUnit: 'year', count: 1 }
-       ])
-      } else {        
-        dateAxis.gridIntervals.pushAll([
-          { timeUnit: 'minute', count: 15 },
-          { timeUnit: 'hour', count: 1 },
-          { timeUnit: 'day', count: 1 },
-          { timeUnit: 'week', count: 1 },
-          { timeUnit: 'month', count: 1 },
-          { timeUnit: 'month', count: 3 },
-          { timeUnit: 'year', count: 1 }
-       ])
+        } else {        
+          dateAxis.gridIntervals.pushAll([
+            { timeUnit: 'minute', count: 15 },
+            { timeUnit: 'hour', count: 1 },
+            { timeUnit: 'day', count: 1 },
+            { timeUnit: 'week', count: 1 },
+            { timeUnit: 'month', count: 1 },
+            { timeUnit: 'month', count: 3 },
+            { timeUnit: 'year', count: 1 }
+        ])
+        }
       }
 
     }

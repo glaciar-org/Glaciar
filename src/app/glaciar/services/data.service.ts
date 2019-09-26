@@ -57,6 +57,9 @@ export class DataService {
           serie_tooltip: true,
           serie_connect: false,
 
+          time_unit_fixed: false,
+          time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
+
           awq_estandar: this.getAWQ_estandar_Default(quality),
           // awq_estandar: (quality === Global.QUALITY_TAB.AIRQ) ? ST.AWQ.REF_BIB_AIRQ : ST.AWQ.REF_BIB,
 
@@ -95,6 +98,9 @@ export class DataService {
       serie_tooltip: false,
       serie_connect: false,
 
+      time_unit_fixed: false,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
+
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
       nil_action: ChartConfig.NIL_Command.CONSIDER,
@@ -132,6 +138,9 @@ export class DataService {
       serie_tooltip: true,
       serie_connect: false,
 
+      time_unit_fixed: false,
+      time_unit_scale: ChartConfig.TIME_Unit_Scale.month,
+
       awq_estandar: this.getAWQ_estandar_Default(quality),
 
       nil_action: ChartConfig.NIL_Command.DISCARD,
@@ -164,7 +173,7 @@ export class DataService {
     }
 
     outliers.map(e => {
-      set(e, Global.VAR.CO,         0,   10)   // [0,   10] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
+      set(e, Global.VAR.CO,         0,   50)   // [0,   50] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf
       set(e, Global.VAR.CO2,        0, 2000)   // [0, 2000] https://www.pce-iberica.es/medidor-detalles-tecnicos/definicion-calidad-aire-y-co2.htm
       set(e, Global.VAR.NO,         0,  200)   // REPLICO A NO2 => sin referencias ... 
       set(e, Global.VAR.NO2,        0,  200)   // [0,  200] http://www.aragonaire.es/assets/documents/IDCA_GobAragon.pdf

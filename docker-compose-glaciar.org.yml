@@ -21,21 +21,19 @@ services:
     networks:
       - network-front
       - network-back
-    depends_on:
-      - glaciar-org-mongo
     configs:
       - source: glaciar_config
         target: /app/glaciar_config.json
-      - glaciar_config_key
     secrets:
       - source: env_docker_file
         target: /app/.env
         mode: 0400
-
+    depends_on:
+      - glaciar-org-mongo
 
   glaciar-org-mongo:
-    image: mongo:4.0
     container_name: glaciar-org-mongo
+    image: mongo:4.0
     volumes:
       # named volumes
       - mongodb:/data/db
@@ -44,13 +42,26 @@ services:
       - "2222:27017"
     networks:
       - network-back
+    depends_on:
+      - glaciar-org-mongo-etl
+
+
+  glaciar-org-mongo-etl:
+    container_name: glaciar-org-mongo-etl
+    image: glaciar/glaciar.org-etl:1.0
+    env_file:
+      - ./.env_docker_swarm
+    configs:
+      - source:  glaciar_config
+        target: /glaciar_config.json
+    networks:
+      - network-back
 
 
 configs:
   glaciar_config:
     file: ./glaciar_config.json
-  glaciar_config_key:
-    external: true
+
 
 
 secrets:
@@ -68,8 +79,7 @@ networks:
   network-back:
     driver: overlay
 
-
-#
+# ------------------------------------------------------------------------------------
 # GlaciaR_Viedma_backend__MONGODB_MLAB_HOST=glaciar_glaciar-org-mongo:27017
 #
 # Runtime (t needs .env_docker)
@@ -77,3 +87,12 @@ networks:
 #    docker-compose -f docker-compose-glaciar.org.yml down --volumes
 #    docker stack deploy --compose-file docker-compose-glaciar.org.yml glaciar
 #
+# Resultado:
+#    - glaciar-front    en:   http://server:80
+#    - glaciar-back     en:   http://server:3000
+#    - glaciar-mongodb  en:   mongo://server:2222
+#    - glaciar-etl      con
+#        docker run -it --rm  --name glaciar_etl --env-file ./.env  \
+#               glaciar/glaciar.org-etl:1.2  ./dispatch.sh ETL1
+#
+# ------------------------------------------------------------------------------------

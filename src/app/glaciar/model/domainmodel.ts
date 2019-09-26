@@ -86,6 +86,9 @@ export namespace ChartConfig {
         serie_tooltip: boolean
         serie_connect: boolean    // conectar los puntos || mostrar los Gaps
 
+        time_unit_fixed: boolean             // default false
+        time_unit_scale: TIME_Unit_Scale     // default 'none'
+
         awq_estandar: ST.AWQ
 
         nil_action: NIL_Command
@@ -120,6 +123,17 @@ export namespace ChartConfig {
         panX     = 'panX',
         panY     = 'panY',
         panXY    = 'panXY',
+        none     = 'none',
+    }
+
+    export enum TIME_Unit_Scale {
+
+        year     = 'year',
+        month    = 'month',
+        week     = 'week',
+        day      = 'day',
+        hour     = 'hour',
+        minute   = 'minute',
         none     = 'none',
     }
 
