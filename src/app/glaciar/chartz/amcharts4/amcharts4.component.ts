@@ -467,8 +467,11 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       dateAxis.renderer.labels.template.adapter.add('rotation', function (rotation, target) {
           const dataItem = target.dataItem
 
-          if (dateAxis['_gridInterval'].timeUnit === 'hour' ||
-              dateAxis['_gridInterval'].timeUnit === 'minute' ) {
+          let isFixedScale = (dateAxis.gridIntervals.length === 1)   // Setup de Escala fija por el usuario
+
+          if ( dateAxis['_gridInterval'].timeUnit === 'hour'   ||
+               dateAxis['_gridInterval'].timeUnit === 'minute' ||
+              (dateAxis['_gridInterval'].timeUnit === 'day' &&  isFixedScale) ) {
               target.verticalCenter = 'middle'
               target.horizontalCenter = 'left'
               return 315
