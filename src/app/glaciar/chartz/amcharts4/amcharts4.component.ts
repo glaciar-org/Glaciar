@@ -324,7 +324,10 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
     serie.dataFields.dateX = 'date'
     serie.name = Global.getLabelEstacion(nseries.series[i].dataset, this.selector, this.param_id) // 'Serie #' + seriesId
     serie.strokeWidth = 2
-    serie.tensionX = 0.85
+
+    if (!this.chartConfig.time_unit_fixed) {
+        serie.tensionX = 0.85
+    }
     this.doActionSetup_serie_tipo_area()
     
     // serie.fillOpacity = (this.chartConfig.serie_tipo_area) ? 0.2 : 0
@@ -464,14 +467,23 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
       dateAxis.renderer.labels.template.adapter.add('rotation', function (rotation, target) {
           const dataItem = target.dataItem
 
-          if (dateAxis['_gridInterval'].timeUnit === 'hour' ||
-              dateAxis['_gridInterval'].timeUnit === 'minute' ) {
+          if (dateAxis['_gridInterval'].timeUnit === 'hour'   ||
+              dateAxis['_gridInterval'].timeUnit === 'minute') {
               target.verticalCenter = 'middle'
               target.horizontalCenter = 'left'
               return 315
-          } else {
-              return 0
           }
+          
+          if (dateAxis['_gridInterval'].timeUnit === 'day') {
+              let isFixedScale = (dateAxis.gridIntervals.length === 1)   // Setup de Escala fija por el usuario
+              if (isFixedScale) {
+                  target.verticalCenter = 'middle'
+                  target.horizontalCenter = 'left'
+                  return 315
+              }
+          }
+
+          return 0
       })
 
 
@@ -591,9 +603,6 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
 
       if (this.chartConfig.time_unit_fixed) {
 
-        // default
-          dateAxis.gridIntervals.pushAll([{ timeUnit: 'month', count: 1 }])  
-
         if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.year) {
           dateAxis.gridIntervals.pushAll([{ timeUnit: 'year', count: 1 }])
         } else 
@@ -611,6 +620,8 @@ export class Amcharts4Component implements OnInit, AfterViewInit, OnChanges, OnD
         } else 
         if (this.chartConfig.time_unit_scale === ChartConfig.TIME_Unit_Scale.minute) {
           dateAxis.gridIntervals.pushAll([{ timeUnit: 'minute', count: 1 }])
+        } else {
+          dateAxis.gridIntervals.pushAll([{ timeUnit: 'month', count: 1 }])       // default mensual
         }
 
       } else {

@@ -133,8 +133,7 @@ export namespace ChartConfig {
         week     = 'week',
         day      = 'day',
         hour     = 'hour',
-        minute   = 'minute',
-        none     = 'none',
+        minute   = 'minute'
     }
 
 }
