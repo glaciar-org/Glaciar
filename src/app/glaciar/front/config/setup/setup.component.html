@@ -259,6 +259,7 @@
                         <!-- [ROW] serie_connect - Fin -->
 
                         <!-- [ROW] time_unit_fixed - Inicio -->
+                        <!-- 
                         <div class="form-group row">
                             <span class="col-md-1"> &nbsp; </span>
                             <span class="col-md-1">
@@ -267,7 +268,33 @@
                             </span>
                             <label class="col-md-4 label-control">{{ formConfig.value.time_unit_fixed | switchText: 'TimeUnit' }}</label>
                         </div>
+                         -->
                         <!-- [ROW] time_unit_fixed - Fin -->
+
+                        <!-- [ROW] zoom - Inicio -->
+                        
+                        <div class="form-group row">
+                            <span class="col-md-1"> &nbsp; </span>
+                            <span class="col-md-1">
+                                <ui-switch 
+                                    formControlName="time_unit_fixed"></ui-switch>
+                            </span>
+                            <label class="col-md-4 label-control">{{ formConfig.value.time_unit_fixed | switchText: 'TimeUnit' }}</label>
+        
+                            <span class="col-md-4 blue-grey" >
+                                <select formControlName="time_unit_scale" id="zoom_tipo" *ngIf="formConfig.value.time_unit_fixed" class="blue-grey">
+                                    <option value="year">Anual</option>
+                                    <option value="month" selected> Mensual</option>
+                                    <option value="week">Semanal</option>
+                                    <option value="day">Diario</option>
+                                    <option value="hour">Horario</option>
+                                    <option value="minute">Por minuto</option>
+                                </select>
+        
+                            </span>
+                        </div>
+
+                        <!-- [ROW] zoom - Fin -->
 
                     </nb-accordion-item-body>
                 </nb-accordion-item>
