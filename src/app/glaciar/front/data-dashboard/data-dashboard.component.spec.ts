@@ -1,5 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 
+import { DataService } from '../../services/data.service'
+import { DomainModel, ChartConfig, KEY } from '../../model/domainmodel'
 import { DataDashboardComponent } from './data-dashboard.component'
 import * as Global from '../../model/global'
 

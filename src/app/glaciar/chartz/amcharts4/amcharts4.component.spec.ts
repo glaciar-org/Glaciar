@@ -1,7 +1,10 @@
 import { async, inject, ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { Amcharts4Component } from './amcharts4.component'
+import { GlaciarStorageService } from '../../services/glaciar-storage.service'
+import { ChartConfig, DomainModel } from '../../model/domainmodel'
 import * as Global from '../../model/global'
+import * as moment from 'moment'
 
 /**
  * http://localhost:9876/debug.html?spec=Amcharts4Component
