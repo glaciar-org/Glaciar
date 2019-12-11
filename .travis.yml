@@ -1,0 +1,52 @@
+language: node_js
+node_js: 10.15.3
+dist: trusty
+sudo: required
+services: docker
+branches:
+  only:
+    - master
+    - develop
+
+cache:
+  directories: node_modules
+
+stages:
+  - build
+  - test
+  - delivery in docker
+  - deploy to heroku
+
+jobs:
+  include:
+    - stage: build
+      script: travis/stage_01_build.sh
+
+    - stage: test
+      script: travis/stage_02_test.sh
+
+    - stage: delivery in docker
+      script: travis/stage_03_docker.sh
+      on:
+        branch: master
+
+    - stage: deploy to heroku
+      script: skip
+      deploy: 
+        provider: heroku
+        api_key:
+          secure: $HEROKU_KEY_USER_GLACIAR_VIEDMA
+        app: 
+          master:  glaciar-viedma
+          develop: glaciar-viedma-dev
+        on:
+          repo: PabloEzequiel/Glaciar-Viedma
+
+notifications:
+  slack:
+    rooms:
+      secure: KelhILP2M6y83lWXmD26eNI71/LkrxTwJE7R/57lZnVs90b7PJsYpqrHQKgcDXJyt2ss6t5YuMMeLIjNf0yeaPVI15t1AKR5uMtJRvOIV937AxqmrdE9D2kBda2YCz+tU+uXThHdgOw6B+n0e96yjVm+6hXGxyx13jBJ/OkqYRI0CXIkEPdVOWAD0beLZXQil3lQRuKWZjLytYQlJEl1zPmkPzBkcsx9kG3Esy+Y4k/85KhlFL0fCnURokRRY290oxvaH2Ud3bU3Afxse3BwTJd0TDJ9unXgrVXe7NePkdYWO8UHaBWhJRRsslPA/VLFv8guKS+ypFiQYcrW7oBfBmGAAWybyrLeq7xMHdiqp0aXrT1UqyXyYkMznLypVwpFFrcwBEOkN1v90M9rruxkFk1B+OPXgvUVrjK806k9XtTx5MklPi6bw3WkzCYr8RDOwg2I9sNxw2dgNdxg3pj76qdH3D/siIvhHZ0M9G9wYWFZ/mQkIQp1PcAZL7ObgV9VPZ+omJA9CqtHk0nb0urJQcZwSrg26HKQIJlPoX8OyO4rjWAm91iwGLlCgH9HLfcIQUVYCnfylodMsPOHS3mffBRWjecwLOep1PweEdQc9PjgV06qWC62Fyx9ZLgSjlKF9ihRCosJjapEWUX1HzWMrKJtxHHEsXOBhqw1/u9lCmY=
+  email:
+    recipients: pablo.inchausti.edu@gmail.com
+    on_success: always
+    on_failure: always
