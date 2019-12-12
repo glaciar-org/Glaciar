@@ -131,6 +131,7 @@ export enum HOST_BACKEND  {
     UPSALA_MASTER       = 'https://glaciar-upsala-backend.herokuapp.com/',
     UPSALA_ORG_DEVELOP  = 'https://glaciar-org-backend-develop.herokuapp.com/',
     UPSALA_ORG_MASTER   = 'https://glaciar-org-backend.herokuapp.com/',
+    UPSALA_DOCKER_COMPOSE = 'https://network-front:5000/',
 }
 
 export enum RES_TYPE  {
@@ -196,6 +197,14 @@ export function isTDD_mode(): boolean {
         
 }
 
+/**
+ * Port 9990 en el docker_compose lo utilizo para navegar el front
+ *           Nota: Coincide con un port abierto de linux academy  
+ */
+export function isFront_9990(): boolean {
+    return window.location.href.includes(':9990/')
+}
+
 // Global.getValue(Global.HOST_BACKEND.UPSALA)
 // Global.getValue(Globa.GlaciaR_Viedma__CHARTLIB)
 export function getValue(key: string): string {
@@ -207,6 +216,7 @@ export function getValue(key: string): string {
         // if (isHost_Prod())  { return HOST_BACKEND.UPSALA_MASTER }
         if (isHost_Dev())   { return HOST_BACKEND.UPSALA_ORG_DEVELOP }
         if (isHost_Prod())  { return HOST_BACKEND.UPSALA_ORG_MASTER }
+        if (isFront_9990()) { return HOST_BACKEND.UPSALA_ORG_MASTER }
         if (isHost_DockerSwarm()) { return 'http://' + window.location.hostname + ':3000/' }
     }
 
