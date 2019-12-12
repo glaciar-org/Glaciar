@@ -4,9 +4,9 @@ services:
 
   glaciar-org-front:
     container_name: glaciar-org-front
-    image:  glaciar/glaciar.org-front:1.2
+    image:  glaciar/glaciar.org-front:1.3
     ports: 
-      - '80:80'
+      - '9990:80'
     networks:
       - network-front
 
